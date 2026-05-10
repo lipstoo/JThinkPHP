@@ -15,7 +15,8 @@ if (!function_exists('env')) {
      * @param mixed $default 默认值
      */
     function env($key, $default = null) {
-        $value = getenv($key);
+        $value = $_ENV[$key] ?? $_SERVER[$key] ?? (function_exists('getenv') ? getenv($key) : false);
+        
         if ($value === false) {
             return $default;
         }
