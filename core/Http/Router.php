@@ -133,6 +133,8 @@ class Router {
         
         $this->prefix = $previousPrefix;
         $this->groupMiddleware = $previousMiddleware;
+        
+        return $this;
     }
 
     /**
