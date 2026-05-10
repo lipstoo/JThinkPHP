@@ -282,9 +282,9 @@ class JThink {
      * 解析当前 HTTP 请求参数（兼容模式）
      */
     public static function parseRequest() {
-        $url = $_SERVER['REQUEST_URI'];
-        $url = str_replace('/public/', '', $url);
-        $url = trim($url, '/');
+        $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $url = str_replace('/public/', '/', $url);
+        $url = '/' . trim($url, '/');
 
         self::$request['url'] = $url;
         self::$request['method'] = $_SERVER['REQUEST_METHOD'];
