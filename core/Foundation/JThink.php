@@ -355,9 +355,14 @@ class JThink {
             ]);
         }
         
-        $message = "<strong>Message:</strong> {$e->getMessage()}<br>";
-        $message .= "<strong>File:</strong> {$e->getFile()}:{$e->getLine()}<br>";
-        $message .= "<br><strong>Stack Trace:</strong><br><pre>{$e->getTraceAsString()}</pre>";
+        $errMsg = htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8');
+        $errFile = htmlspecialchars($e->getFile(), ENT_QUOTES, 'UTF-8');
+        $errTrace = htmlspecialchars($e->getTraceAsString(), ENT_QUOTES, 'UTF-8');
+        
+        $message = "<h3>Message: {$errMsg}</h3>";
+        $message .= "<p><strong>File:</strong> {$errFile} (Line: {$e->getLine()})</p>";
+        $message .= "<hr><p><strong>Stack Trace:</strong></p>";
+        $message .= "<pre><code>{$errTrace}</code></pre>";
 
         self::error(500, $message);
     }
@@ -388,23 +393,16 @@ class JThink {
     <title>Error {$code} - JThinkPHP</title>
     <link rel="stylesheet" href="{$cssUrl}">
 </head>
-<body class="j-bg">
-    <div class="j-container" style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-        <div class="j-card" style="width: 100%; max-width: 900px; padding: 0; overflow: hidden;">
-            <div class="j-header" style="text-align: left; padding: 30px; border-bottom: 1px solid var(--j-border);">
-                <div style="background: rgba(239, 68, 68, 0.15); color: var(--j-danger); display: inline-block; padding: 4px 12px; border-radius: 99px; font-weight: bold; margin-bottom: 15px;">
-                    Status {$code}
-                </div>
-                <h1 style="margin: 0; font-size: 24px; text-align: left;">Framework Exception</h1>
-            </div>
-            
-            <div style="padding: 30px; font-family: monospace; color: var(--j-text-secondary); line-height: 1.8; overflow-x: auto;">
+<body>
+    <div class="j-container">
+        <div class="j-header">
+            <h1>Framework Exception (Status {$code})</h1>
+            <p>Powered by JThinkPHP (PHP v{$phpVersion})</p>
+        </div>
+        
+        <div class="j-main">
+            <div class="j-card">
                 {$message}
-            </div>
-            
-            <div style="padding: 20px 30px; background: rgba(0,0,0,0.3); border-top: 1px solid var(--j-border); display: flex; justify-content: space-between; font-size: 13px; color: var(--j-text-muted);">
-                <span>Powered by JThinkPHP</span>
-                <span>PHP v{$phpVersion}</span>
             </div>
         </div>
     </div>
