@@ -20,6 +20,8 @@ class SystemTestController extends Controller {
         $results = [
             'core' => $this->testCore(),
             'database' => $this->testDatabase(),
+            'cache' => $this->testCache(),
+            'filesystem' => $this->testFileSystem(),
             'auth' => $this->testAuth(),
             'support' => $this->testSupport(),
             'view' => ['status' => 'success', 'message' => 'View engine is running this test.']
@@ -110,6 +112,60 @@ class SystemTestController extends Controller {
             return ['status' => 'error', 'message' => 'Validator logic failed'];
         } catch (\Exception $e) {
             return ['status' => 'error', 'message' => 'Support Component Error: ' . $e->getMessage()];
+        }
+    }
+
+    /**
+     * 测试缓存组件 (Redis)
+     */
+    protected function testCache() {
+        try {
+            $redisConfig = JThink::$config['database']['redis'] ?? [];
+            if (empty($redisConfig)) {
+                return ['status' => 'warning', 'message' => 'Redis configuration not found, skipping.'];
+            }
+            
+            $redis = \JThink\Core\Database\RedisClient::getInstance();
+            if (!$redis) {
+                return ['status' => 'error', 'message' => 'Redis connection failed.'];
+            }
+            
+            $redis->setex('jthink_test_key', 10, 'system_check');
+            $val = $redis->get('jthink_test_key');
+            
+            if ($val === 'system_check') {
+                return ['status' => 'success', 'message' => 'Redis cache read/write is operational.'];
+            }
+            return ['status' => 'error', 'message' => 'Redis cache data mismatch.'];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'message' => 'Redis Error: ' . $e->getMessage()];
+        }
+    }
+
+    /**
+     * 测试文件系统与目录权限
+     */
+    protected function testFileSystem() {
+        try {
+            $storage = defined('STORAGE_PATH') ? STORAGE_PATH : dirname(dirname(dirname(__DIR__))) . '/storage';
+            $logsDir = $storage . '/logs';
+            $cacheDir = $storage . '/cache';
+            
+            $msg = [];
+            
+            if (!is_dir($storage)) {
+                return ['status' => 'error', 'message' => "Storage directory ($storage) does not exist."];
+            }
+            
+            $msg[] = is_writable($logsDir) ? "Logs (Writable)" : "Logs (Read-only)";
+            $msg[] = is_writable($cacheDir) ? "Cache (Writable)" : "Cache (Read-only)";
+            
+            return [
+                'status' => (is_writable($logsDir) && is_writable($cacheDir)) ? 'success' : 'warning',
+                'message' => 'File Permissions: ' . implode(', ', $msg)
+            ];
+        } catch (\Exception $e) {
+            return ['status' => 'error', 'message' => 'Filesystem Error: ' . $e->getMessage()];
         }
     }
 }

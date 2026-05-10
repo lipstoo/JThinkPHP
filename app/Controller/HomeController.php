@@ -7,7 +7,7 @@ class HomeController extends Controller {
     public function index() {
         $this->assign('title', 'JThinkPHP');
         $this->assign('desc', 'A minimalist PHP framework');
-        $this->display('index');
+        $this->display('home');
     }
     
     public function home() {

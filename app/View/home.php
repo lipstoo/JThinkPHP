@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?> - JThinkPHP</title>
-    <link rel="stylesheet" href="/public/css/jthink.css">
+    <link rel="stylesheet" href="/css/jthink.css">
 </head>
 <body>
     <div class="j-container">
@@ -126,6 +126,6 @@
         </footer>
     </div>
 
-    <script src="/public/js/jthink.js"></script>
+    <script src="/js/jthink.js"></script>
 </body>
 </html>
