@@ -249,7 +249,8 @@ class JThink {
     public static function initDatabase() {
         $dbConfig = self::$config['database'] ?? [];
         if (isset($dbConfig['connections'])) {
-            DBFactory::setConfig($dbConfig['connections']);
+            $default = $dbConfig['default'] ?? 'mysql';
+            DBFactory::setConfig($dbConfig['connections'], $default);
             
             // 绑定核心 db 服务到容器，以便迁移工具和其它组件使用
             self::$container->singleton('db', function() use ($dbConfig) {

@@ -11,21 +11,24 @@ class DBFactory {
     /** @var array 活跃的连接池 */
     protected static $connections = [];
     
-    /** @var array 数据库配置信息 */
-    protected static $config = [];
+    /** @var string 默认连接名 */
+    protected static $defaultConnection = 'mysql';
 
     /**
      * 设置全局数据库配置
      */
-    public static function setConfig($config) {
+    public static function setConfig($config, $default = 'mysql') {
         self::$config = $config;
+        self::$defaultConnection = $default;
     }
 
     /**
      * 获取命名的数据库连接实例
      * @param string $name 连接名
      */
-    public static function getConnection($name = 'default') {
+    public static function getConnection($name = null) {
+        $name = $name ?: self::$defaultConnection;
+        
         if (isset(self::$connections[$name])) {
             return self::$connections[$name];
         }
