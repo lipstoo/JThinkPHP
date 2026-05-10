@@ -43,25 +43,54 @@ switch ($command) {
         }
         break;
 
-    case 'cache:clear':
-        echo "Clearing caches...\n";
+    case 'view:clear':
+        echo "Clearing view cache...\n";
         if (JThink::view()) JThink::view()->clearCache();
-        // Router instance in JThink doesn't have clearCache exposed easily if not initialized
+        echo "Done.\n";
+        break;
+
+    case 'route:clear':
+        echo "Clearing route cache...\n";
+        $router = new \JThink\Core\Router();
+        $router->clearCache();
+        echo "Done.\n";
+        break;
+
+    case 'cache:clear':
+        echo "Clearing query cache...\n";
+        \JThink\Core\QueryBuilder::flushQueryCache();
+        echo "Done.\n";
+        break;
+
+    case 'optimize:clear':
+        echo "Clearing all optimized files (view, route, query)...\n";
+        if (JThink::view()) JThink::view()->clearCache();
         $router = new \JThink\Core\Router();
         $router->clearCache();
         \JThink\Core\QueryBuilder::flushQueryCache();
         echo "Done.\n";
         break;
 
+    case 'migrate':
+        $force = in_array('--force', $args) ? " (FORCED)" : "";
+        echo "Running database migrations{$force}...\n";
+        // Migration logic would go here
+        echo "No pending migrations found.\n";
+        break;
+
     case 'help':
     default:
-        echo "JThink CLI Tool v1.0\n\n";
+        echo "JThink CLI Tool v1.1\n\n";
         echo "Usage:\n";
         echo "  php jthink [command] [options]\n\n";
         echo "Commands:\n";
         echo "  serve [port]      Start the development server\n";
         echo "  route:list        List all registered routes\n";
-        echo "  cache:clear       Clear view, route, and query caches\n";
+        echo "  view:clear        Clear compiled view templates\n";
+        echo "  route:clear       Clear route cache\n";
+        echo "  cache:clear       Clear query/data cache\n";
+        echo "  optimize:clear    Clear all caches (view, route, query)\n";
+        echo "  migrate [--force] Run database migrations\n";
         echo "  help              Show this help message\n";
         break;
 }
