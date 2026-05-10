@@ -19,6 +19,8 @@ JThink::loadEnv();
 JThink::loadConfig();
 JThink::initContainer();
 JThink::initDatabase();
+JThink::initRedis();
+JThink::loadRouter();
 
 echo "========================================\n";
 echo "   JThinkPHP CLI Unit Test Suite\n";
@@ -74,9 +76,9 @@ it("Redis Connection & Operations", function() {
 });
 
 it("JWT Generation and Verification", function() {
-    $token = JWT::createToken(['id' => 123]);
+    $token = JWT::createToken(['user_id' => 123]);
     $decoded = JWT::decode($token);
-    return $decoded['user_id'] == 123;
+    return ($decoded['user_id'] ?? null) == 123;
 });
 
 it("Global Cache Helper (File)", function() {
