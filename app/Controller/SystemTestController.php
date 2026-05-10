@@ -147,5 +147,4 @@ class SystemTestController extends Controller {
         $details[] = ['check' => 'Layout System', 'status' => 'success', 'msg' => 'Global CSS Loaded'];
         return ['status' => 'success', 'details' => $details];
     }
-    }
 }
