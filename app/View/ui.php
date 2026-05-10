@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $title ?> - JThinkPHP</title>
-    <link rel="stylesheet" href="/public/css/jthink.css">
+    <link rel="stylesheet" href="/css/jthink.css">
 </head>
 <body>
     <div class="j-container">
@@ -35,52 +35,52 @@
                 <div class="j-card">
                     <div class="j-demo j-icon-grid">
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-home"/>
+                            <use href="/svg/icons.svg#icon-home"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-user"/>
+                            <use href="/svg/icons.svg#icon-user"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-settings"/>
+                            <use href="/svg/icons.svg#icon-settings"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-search"/>
+                            <use href="/svg/icons.svg#icon-search"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-mail"/>
+                            <use href="/svg/icons.svg#icon-mail"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-lock"/>
+                            <use href="/svg/icons.svg#icon-lock"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-edit"/>
+                            <use href="/svg/icons.svg#icon-edit"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-trash"/>
+                            <use href="/svg/icons.svg#icon-trash"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-plus"/>
+                            <use href="/svg/icons.svg#icon-plus"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-check"/>
+                            <use href="/svg/icons.svg#icon-check"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-info"/>
+                            <use href="/svg/icons.svg#icon-info"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-alert"/>
+                            <use href="/svg/icons.svg#icon-alert"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-success"/>
+                            <use href="/svg/icons.svg#icon-success"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-warning"/>
+                            <use href="/svg/icons.svg#icon-warning"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-arrow-right"/>
+                            <use href="/svg/icons.svg#icon-arrow-right"/>
                         </svg>
                         <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <use href="/public/svg/icons.svg#icon-download"/>
+                            <use href="/svg/icons.svg#icon-download"/>
                         </svg>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                     <div class="j-card">
                         <div class="j-card-icon">
                             <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <use href="/public/svg/icons.svg#icon-star"/>
+                                <use href="/svg/icons.svg#icon-star"/>
                             </svg>
                         </div>
                         <h3>Icon Card</h3>
@@ -177,25 +177,25 @@
                 <h2 class="j-section-title">Alerts</h2>
                 <div class="j-alert j-alert-info">
                     <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <use href="/public/svg/icons.svg#icon-info"/>
+                        <use href="/svg/icons.svg#icon-info"/>
                     </svg>
                     <div>Info alert message. This is an informational notification.</div>
                 </div>
                 <div class="j-alert j-alert-success">
                     <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <use href="/public/svg/icons.svg#icon-success"/>
+                        <use href="/svg/icons.svg#icon-success"/>
                     </svg>
                     <div>Success alert message. Operation completed successfully.</div>
                 </div>
                 <div class="j-alert j-alert-warning">
                     <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <use href="/public/svg/icons.svg#icon-warning"/>
+                        <use href="/svg/icons.svg#icon-warning"/>
                     </svg>
                     <div>Warning alert message. Please review your input.</div>
                 </div>
                 <div class="j-alert j-alert-danger">
                     <svg class="j-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <use href="/public/svg/icons.svg#icon-error"/>
+                        <use href="/svg/icons.svg#icon-error"/>
                     </svg>
                     <div>Danger alert message. Something went wrong.</div>
                 </div>
@@ -228,60 +228,6 @@
         </footer>
     </div>
 
-    <script src="/public/js/jthink.js"></script>
-    <style>
-        .j-section {
-            margin-bottom: 32px;
-        }
-        
-        .j-section-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--j-text);
-        }
-        
-        .j-demo {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: center;
-        }
-        
-        .j-icon-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
-            gap: 24px;
-            padding: 16px 0;
-        }
-        
-        .j-icon-grid .j-icon {
-            width: 48px;
-            height: 48px;
-            color: var(--j-text-secondary);
-            transition: var(--j-transition);
-        }
-        
-        .j-icon-grid .j-icon:hover {
-            color: var(--j-primary);
-            transform: scale(1.2);
-        }
-        
-        .j-card .j-avatar {
-            display: inline-flex;
-            margin-right: 12px;
-        }
-        
-        .j-card .j-progress {
-            margin-top: 8px;
-        }
-        
-        .j-alert .j-icon {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-        }
-    </style>
+    <script src="/js/jthink.js"></script>
 </body>
 </html>
-?>

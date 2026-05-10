@@ -125,10 +125,8 @@ class SystemTestController extends Controller {
                 return ['status' => 'warning', 'message' => 'Redis configuration not found, skipping.'];
             }
             
-            $redis = \JThink\Core\Database\RedisClient::getInstance();
-            if (!$redis) {
-                return ['status' => 'error', 'message' => 'Redis connection failed.'];
-            }
+            $redis = new \JThink\Core\Database\RedisClient($redisConfig);
+            $redis->connect();
             
             $redis->setex('jthink_test_key', 10, 'system_check');
             $val = $redis->get('jthink_test_key');

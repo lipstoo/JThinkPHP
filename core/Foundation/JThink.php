@@ -382,7 +382,7 @@ class JThink {
 
         // 引入全局 CSS
         $cssUrl = self::$config['app']['base_url'] ?? '';
-        $cssUrl .= '/public/css/jthink.css';
+        $cssUrl .= '/css/jthink.css';
         $phpVersion = PHP_VERSION;
 
         $html = <<<HTML

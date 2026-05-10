@@ -741,3 +741,56 @@ body::before {
         gap: 24px;
     }
 }
+
+/* UI Section Components */
+.j-section {
+    margin-bottom: 32px;
+}
+
+.j-section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--j-text);
+}
+
+.j-demo {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+
+.j-icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+    gap: 24px;
+    padding: 16px 0;
+}
+
+.j-icon-grid .j-icon {
+    width: 48px;
+    height: 48px;
+    color: var(--j-text-secondary);
+    transition: var(--j-transition);
+}
+
+.j-icon-grid .j-icon:hover {
+    color: var(--j-primary);
+    transform: scale(1.2);
+}
+
+.j-card .j-avatar {
+    display: inline-flex;
+    margin-right: 12px;
+}
+
+.j-card .j-progress {
+    margin-top: 8px;
+}
+
+.j-alert .j-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
