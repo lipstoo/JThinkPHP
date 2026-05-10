@@ -1,0 +1,67 @@
+<?php
+
+define('J_PATH', __DIR__);
+define('J_CORE', J_PATH . '/core');
+define('J_APP', J_PATH . '/app');
+define('J_PUBLIC', J_PATH . '/public');
+define('BASE_PATH', J_PATH);
+
+require J_CORE . '/functions.php';
+require J_CORE . '/JThink.php';
+
+use JThink\Core\JThink;
+
+// Initialize framework in CLI mode
+JThink::defineConstants();
+JThink::registerAutoloader();
+JThink::loadEnv();
+JThink::loadConfig();
+JThink::initContainer();
+JThink::initLogger();
+JThink::initDatabase();
+
+$args = $argv;
+array_shift($args); // remove script name
+
+$command = $args[0] ?? 'help';
+
+switch ($command) {
+    case 'serve':
+        $port = $args[1] ?? 8000;
+        echo "Starting JThink development server on http://localhost:{$port}...\n";
+        passthru("php -S localhost:{$port} -t public");
+        break;
+
+    case 'route:list':
+        $router = new \JThink\Core\Router();
+        require J_APP . '/config/route.php';
+        echo str_pad('Method', 10) . str_pad('URI', 30) . "Action\n";
+        echo str_repeat('-', 60) . "\n";
+        foreach ($router->getRoutes() as $route) {
+            $action = is_string($route['action']) ? $route['action'] : (is_array($route['action']) ? implode('@', $route['action']) : 'Closure');
+            echo str_pad($route['method'], 10) . str_pad($route['uri'], 30) . $action . "\n";
+        }
+        break;
+
+    case 'cache:clear':
+        echo "Clearing caches...\n";
+        if (JThink::view()) JThink::view()->clearCache();
+        // Router instance in JThink doesn't have clearCache exposed easily if not initialized
+        $router = new \JThink\Core\Router();
+        $router->clearCache();
+        \JThink\Core\QueryBuilder::flushQueryCache();
+        echo "Done.\n";
+        break;
+
+    case 'help':
+    default:
+        echo "JThink CLI Tool v1.0\n\n";
+        echo "Usage:\n";
+        echo "  php jthink [command] [options]\n\n";
+        echo "Commands:\n";
+        echo "  serve [port]      Start the development server\n";
+        echo "  route:list        List all registered routes\n";
+        echo "  cache:clear       Clear view, route, and query caches\n";
+        echo "  help              Show this help message\n";
+        break;
+}

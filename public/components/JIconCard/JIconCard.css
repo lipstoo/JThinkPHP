@@ -1,0 +1,127 @@
+.j-icon-card {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    border-radius: var(--j-radius);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid transparent;
+    transition: var(--j-transition);
+}
+
+.j-icon-card .j-icon {
+    color: var(--j-text);
+}
+
+.j-icon-card-primary {
+    background: rgba(99, 102, 241, 0.15);
+}
+
+.j-icon-card-primary .j-icon {
+    color: var(--j-primary);
+}
+
+.j-icon-card-success {
+    background: rgba(16, 185, 129, 0.15);
+}
+
+.j-icon-card-success .j-icon {
+    color: var(--j-success);
+}
+
+.j-icon-card-warning {
+    background: rgba(245, 158, 11, 0.15);
+}
+
+.j-icon-card-warning .j-icon {
+    color: var(--j-warning);
+}
+
+.j-icon-card-danger {
+    background: rgba(239, 68, 68, 0.15);
+}
+
+.j-icon-card-danger .j-icon {
+    color: var(--j-danger);
+}
+
+.j-icon-card-info {
+    background: rgba(59, 130, 246, 0.15);
+}
+
+.j-icon-card-info .j-icon {
+    color: var(--j-info);
+}
+
+.j-icon-card-purple {
+    background: rgba(139, 92, 246, 0.15);
+}
+
+.j-icon-card-purple .j-icon {
+    color: #8b5cf6;
+}
+
+.j-icon-card-pink {
+    background: rgba(236, 72, 153, 0.15);
+}
+
+.j-icon-card-pink .j-icon {
+    color: #ec4899;
+}
+
+.j-icon-card-amber {
+    background: rgba(245, 158, 11, 0.15);
+}
+
+.j-icon-card-amber .j-icon {
+    color: #f59e0b;
+}
+
+.j-icon-card-teal {
+    background: rgba(20, 184, 166, 0.15);
+}
+
+.j-icon-card-teal .j-icon {
+    color: #14b8a6;
+}
+
+.j-icon-card-sm {
+    padding: 8px;
+}
+
+.j-icon-card-sm .j-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.j-icon-card-md {
+    padding: 12px;
+}
+
+.j-icon-card-md .j-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.j-icon-card-lg {
+    padding: 16px;
+}
+
+.j-icon-card-lg .j-icon {
+    width: 32px;
+    height: 32px;
+}
+
+.j-icon-card-xl {
+    padding: 20px;
+}
+
+.j-icon-card-xl .j-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.j-icon-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--j-shadow-card);
+}

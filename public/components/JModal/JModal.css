@@ -1,0 +1,77 @@
+.j-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--j-transition);
+}
+
+.j-modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.j-modal {
+    background: var(--j-bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--j-border);
+    border-radius: var(--j-radius-lg);
+    padding: 24px;
+    min-width: 400px;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    transform: scale(0.9);
+    transition: var(--j-transition);
+}
+
+.j-modal-overlay.show .j-modal {
+    transform: scale(1);
+}
+
+.j-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--j-border);
+}
+
+.j-modal-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.j-modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--j-text-muted);
+    transition: var(--j-transition);
+}
+
+.j-modal-close:hover {
+    color: var(--j-text);
+}
+
+.j-modal-body {
+    margin-bottom: 20px;
+}
+
+.j-modal-footer {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}

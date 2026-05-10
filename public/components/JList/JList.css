@@ -1,0 +1,42 @@
+.j-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: var(--j-bg-input);
+    border-radius: var(--j-radius);
+    border: 1px solid var(--j-border);
+}
+
+.j-list-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--j-border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: var(--j-transition);
+    cursor: pointer;
+}
+
+.j-list-item:last-child {
+    border-bottom: none;
+}
+
+.j-list-item:hover {
+    background: var(--j-bg-card-hover);
+}
+
+.j-list-item.active {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--j-primary);
+}
+
+.j-list-item.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.j-list-divider {
+    height: 1px;
+    background: var(--j-border);
+    margin: 8px 0;
+}

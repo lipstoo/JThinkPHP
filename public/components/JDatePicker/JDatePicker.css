@@ -1,0 +1,98 @@
+.j-datepicker {
+    position: relative;
+    display: inline-block;
+}
+
+.j-datepicker-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--j-bg-input);
+    border: 1px solid var(--j-border);
+    border-radius: var(--j-radius);
+    color: var(--j-text);
+    font-size: 1rem;
+    transition: var(--j-transition);
+    outline: none;
+    cursor: pointer;
+}
+
+.j-datepicker-input:focus {
+    border-color: var(--j-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.j-datepicker-calendar {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    background: var(--j-bg-card);
+    border: 1px solid var(--j-border);
+    border-radius: var(--j-radius);
+    padding: 16px;
+    min-width: 280px;
+    z-index: 1000;
+    display: none;
+}
+
+.j-datepicker-calendar.show {
+    display: block;
+}
+
+.j-datepicker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.j-datepicker-nav {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--j-text);
+    padding: 4px;
+}
+
+.j-datepicker-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 8px;
+    font-size: 0.75rem;
+    color: var(--j-text-muted);
+    text-align: center;
+}
+
+.j-datepicker-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.j-datepicker-day {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    border-radius: var(--j-radius);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--j-transition);
+}
+
+.j-datepicker-day:hover {
+    background: var(--j-bg-card-hover);
+}
+
+.j-datepicker-day.active {
+    background: var(--j-primary);
+    color: white;
+}
+
+.j-datepicker-day.other-month {
+    color: var(--j-text-muted);
+}
+
+.j-datepicker-day.today {
+    border: 1px solid var(--j-primary);
+}

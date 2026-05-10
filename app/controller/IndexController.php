@@ -1,0 +1,18 @@
+<?php
+namespace App\Controller;
+
+use JThink\Core\Controller;
+
+class IndexController extends Controller {
+    public function index() {
+        $this->assign('title', 'JThinkPHP');
+        $this->assign('desc', 'A minimalist PHP framework');
+        $this->display('index');
+    }
+    
+    public function home() {
+        $this->assign('title', 'Home');
+        $this->display('home');
+    }
+}
+?>

@@ -1,0 +1,22 @@
+.j-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--j-bg-input);
+    border: 1px solid var(--j-border);
+    border-radius: var(--j-radius);
+    color: var(--j-text);
+    font-size: 1rem;
+    transition: var(--j-transition);
+    outline: none;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.j-textarea:focus {
+    border-color: var(--j-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.j-textarea::placeholder {
+    color: var(--j-text-muted);
+}

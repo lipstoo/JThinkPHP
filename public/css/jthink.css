@@ -1,0 +1,583 @@
+@import '../components/components.css';
+
+:root {
+    --j-primary: #6366f1;
+    --j-primary-dark: #4f46e5;
+    --j-secondary: #8b5cf6;
+    --j-accent: #ec4899;
+    --j-success: #10b981;
+    --j-warning: #f59e0b;
+    --j-danger: #ef4444;
+    --j-info: #3b82f6;
+    
+    --j-bg: #0f0f1a;
+    --j-bg-card: rgba(255, 255, 255, 0.05);
+    --j-bg-card-hover: rgba(255, 255, 255, 0.08);
+    --j-bg-input: rgba(255, 255, 255, 0.08);
+    
+    --j-text: #ffffff;
+    --j-text-secondary: rgba(255, 255, 255, 0.7);
+    --j-text-muted: rgba(255, 255, 255, 0.5);
+    
+    --j-border: rgba(255, 255, 255, 0.1);
+    --j-border-light: rgba(255, 255, 255, 0.15);
+    
+    --j-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --j-shadow-card: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --j-shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3);
+    
+    --j-radius: 12px;
+    --j-radius-sm: 8px;
+    --j-radius-lg: 16px;
+    
+    --j-transition: all 0.3s ease;
+    --j-transition-fast: all 0.15s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--j-bg);
+    color: var(--j-text);
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(236, 72, 153, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.j-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.j-header {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.j-header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--j-primary), var(--j-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+}
+
+.j-header p {
+    color: var(--j-text-secondary);
+    font-size: 1.1rem;
+}
+
+.j-main {
+    padding: 20px 0;
+}
+
+.j-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.j-card {
+    background: var(--j-bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--j-border);
+    border-radius: var(--j-radius-lg);
+    padding: 28px;
+    transition: var(--j-transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.j-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--j-primary), transparent);
+    opacity: 0;
+    transition: var(--j-transition);
+}
+
+.j-card:hover {
+    transform: translateY(-4px);
+    background: var(--j-bg-card-hover);
+    border-color: var(--j-border-light);
+    box-shadow: var(--j-shadow-card), var(--j-shadow-glow);
+}
+
+.j-card:hover::before {
+    opacity: 1;
+}
+
+.j-card-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, var(--j-primary), var(--j-secondary));
+    border-radius: var(--j-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    transition: var(--j-transition);
+}
+
+.j-card:hover .j-card-icon {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+.j-icon {
+    width: 28px;
+    height: 28px;
+    color: white;
+}
+
+.j-card h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--j-text);
+}
+
+.j-card p {
+    color: var(--j-text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.j-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--j-radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--j-transition);
+    text-decoration: none;
+    gap: 8px;
+}
+
+.j-btn-primary {
+    background: linear-gradient(135deg, var(--j-primary), var(--j-primary-dark));
+    color: white;
+}
+
+.j-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--j-shadow-glow);
+}
+
+.j-btn-secondary {
+    background: var(--j-bg-card);
+    color: var(--j-text);
+    border: 1px solid var(--j-border);
+}
+
+.j-btn-secondary:hover {
+    background: var(--j-bg-card-hover);
+    border-color: var(--j-border-light);
+}
+
+.j-btn-outline {
+    background: transparent;
+    color: var(--j-primary);
+    border: 1px solid var(--j-primary);
+}
+
+.j-btn-outline:hover {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.j-btn-sm {
+    padding: 8px 16px;
+    font-size: 0.875rem;
+}
+
+.j-btn-lg {
+    padding: 16px 32px;
+    font-size: 1.1rem;
+}
+
+.j-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.j-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--j-bg-input);
+    border: 1px solid var(--j-border);
+    border-radius: var(--j-radius);
+    color: var(--j-text);
+    font-size: 1rem;
+    transition: var(--j-transition);
+    outline: none;
+}
+
+.j-input:focus {
+    border-color: var(--j-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.j-input::placeholder {
+    color: var(--j-text-muted);
+}
+
+.j-input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px var(--j-bg-input) inset;
+    -webkit-text-fill-color: var(--j-text);
+}
+
+.j-select {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--j-bg-input);
+    border: 1px solid var(--j-border);
+    border-radius: var(--j-radius);
+    color: var(--j-text);
+    font-size: 1rem;
+    transition: var(--j-transition);
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+}
+
+.j-select:focus {
+    border-color: var(--j-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.j-textarea {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--j-bg-input);
+    border: 1px solid var(--j-border);
+    border-radius: var(--j-radius);
+    color: var(--j-text);
+    font-size: 1rem;
+    transition: var(--j-transition);
+    outline: none;
+    resize: vertical;
+    min-height: 100px;
+}
+
+.j-textarea:focus {
+    border-color: var(--j-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.j-checkbox, .j-radio {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--j-border);
+    border-radius: var(--j-radius-sm);
+    background: var(--j-bg-input);
+    cursor: pointer;
+    position: relative;
+    transition: var(--j-transition);
+}
+
+.j-checkbox:hover, .j-radio:hover {
+    border-color: var(--j-primary);
+}
+
+.j-checkbox:checked, .j-radio:checked {
+    background: var(--j-primary);
+    border-color: var(--j-primary);
+}
+
+.j-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.j-radio {
+    border-radius: 50%;
+}
+
+.j-radio:checked::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.j-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--j-text);
+}
+
+.j-form-group {
+    margin-bottom: 20px;
+}
+
+.j-form-group:last-child {
+    margin-bottom: 0;
+}
+
+.j-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.j-list-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--j-border);
+    transition: var(--j-transition);
+    cursor: pointer;
+}
+
+.j-list-item:last-child {
+    border-bottom: none;
+}
+
+.j-list-item:hover {
+    background: var(--j-bg-card-hover);
+}
+
+.j-list-item.active {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--j-primary);
+}
+
+.j-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.j-badge-primary {
+    background: rgba(99, 102, 241, 0.2);
+    color: var(--j-primary);
+}
+
+.j-badge-success {
+    background: rgba(16, 185, 129, 0.2);
+    color: var(--j-success);
+}
+
+.j-badge-warning {
+    background: rgba(245, 158, 11, 0.2);
+    color: var(--j-warning);
+}
+
+.j-badge-danger {
+    background: rgba(239, 68, 68, 0.2);
+    color: var(--j-danger);
+}
+
+.j-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--j-primary), var(--j-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.j-avatar-sm {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+}
+
+.j-avatar-lg {
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+}
+
+.j-progress {
+    width: 100%;
+    height: 8px;
+    background: var(--j-bg-input);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.j-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--j-primary), var(--j-secondary));
+    border-radius: 4px;
+    transition: width var(--j-transition);
+}
+
+.j-divider {
+    height: 1px;
+    background: var(--j-border);
+    margin: 20px 0;
+}
+
+.j-alert {
+    padding: 16px;
+    border-radius: var(--j-radius);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.j-alert-info {
+    background: rgba(59, 130, 246, 0.1);
+    border-left: 4px solid var(--j-info);
+}
+
+.j-alert-success {
+    background: rgba(16, 185, 129, 0.1);
+    border-left: 4px solid var(--j-success);
+}
+
+.j-alert-warning {
+    background: rgba(245, 158, 11, 0.1);
+    border-left: 4px solid var(--j-warning);
+}
+
+.j-alert-danger {
+    background: rgba(239, 68, 68, 0.1);
+    border-left: 4px solid var(--j-danger);
+}
+
+.j-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--j-transition);
+}
+
+.j-modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.j-modal-content {
+    background: var(--j-bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--j-border);
+    border-radius: var(--j-radius-lg);
+    padding: 24px;
+    width: 90%;
+    max-width: 480px;
+    transform: scale(0.9);
+    transition: var(--j-transition);
+}
+
+.j-modal.show .j-modal-content {
+    transform: scale(1);
+}
+
+.j-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.j-modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.j-modal-close {
+    background: none;
+    border: none;
+    color: var(--j-text-secondary);
+    cursor: pointer;
+    font-size: 1.5rem;
+    line-height: 1;
+    transition: var(--j-transition);
+}
+
+.j-modal-close:hover {
+    color: var(--j-text);
+}
+
+.j-footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--j-text-muted);
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .j-header h1 {
+        font-size: 2rem;
+    }
+    
+    .j-container {
+        padding: 16px;
+    }
+    
+    .j-card {
+        padding: 20px;
+    }
+}

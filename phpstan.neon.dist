@@ -1,0 +1,5 @@
+parameters:
+    autoload_directories:
+        - %currentWorkingDirectory%/core
+    bootstrapFiles:
+        - %currentWorkingDirectory%/core/functions.php

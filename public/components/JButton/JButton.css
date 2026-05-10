@@ -1,0 +1,66 @@
+.j-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--j-radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--j-transition);
+    text-decoration: none;
+    gap: 8px;
+}
+
+.j-btn-primary {
+    background: linear-gradient(135deg, var(--j-primary), var(--j-primary-dark));
+    color: white;
+}
+
+.j-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--j-shadow-glow);
+}
+
+.j-btn-secondary {
+    background: var(--j-bg-card);
+    color: var(--j-text);
+    border: 1px solid var(--j-border);
+}
+
+.j-btn-secondary:hover {
+    background: var(--j-bg-card-hover);
+    border-color: var(--j-border-light);
+}
+
+.j-btn-outline {
+    background: transparent;
+    color: var(--j-primary);
+    border: 1px solid var(--j-primary);
+}
+
+.j-btn-outline:hover {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.j-btn-sm {
+    padding: 8px 16px;
+    font-size: 0.875rem;
+}
+
+.j-btn-lg {
+    padding: 16px 32px;
+    font-size: 1.1rem;
+}
+
+.j-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.j-btn-icon {
+    width: 18px;
+    height: 18px;
+}

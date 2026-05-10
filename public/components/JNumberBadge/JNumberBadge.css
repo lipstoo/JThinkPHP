@@ -1,0 +1,86 @@
+.j-number-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 12px;
+    background: var(--j-bg-card);
+    border: 1px solid var(--j-border);
+    border-radius: var(--j-radius);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--j-text-muted);
+    transition: var(--j-transition);
+    cursor: pointer;
+}
+
+.j-number-badge:hover {
+    background: var(--j-bg-card-hover);
+}
+
+.j-number-badge.active {
+    background: var(--j-primary);
+    border-color: var(--j-primary);
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+.j-number-badge-success {
+    background: rgba(16, 185, 129, 0.15);
+    border-color: rgba(16, 185, 129, 0.3);
+    color: var(--j-success);
+}
+
+.j-number-badge-success.active {
+    background: var(--j-success);
+    border-color: var(--j-success);
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.j-number-badge-warning {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.3);
+    color: var(--j-warning);
+}
+
+.j-number-badge-warning.active {
+    background: var(--j-warning);
+    border-color: var(--j-warning);
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+.j-number-badge-danger {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: var(--j-danger);
+}
+
+.j-number-badge-danger.active {
+    background: var(--j-danger);
+    border-color: var(--j-danger);
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+.j-number-badge-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.j-number-badge-sm {
+    min-width: 28px;
+    height: 28px;
+    padding: 0 10px;
+    font-size: 0.75rem;
+}
+
+.j-number-badge-lg {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 14px;
+    font-size: 1rem;
+}

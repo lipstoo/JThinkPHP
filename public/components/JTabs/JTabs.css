@@ -1,0 +1,50 @@
+.j-tabs {
+    background: var(--j-bg-card);
+    border-radius: var(--j-radius);
+    border: 1px solid var(--j-border);
+    overflow: hidden;
+}
+
+.j-tabs-header {
+    display: flex;
+    border-bottom: 1px solid var(--j-border);
+    background: var(--j-bg-input);
+}
+
+.j-tab-item {
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--j-text-muted);
+    transition: var(--j-transition);
+    position: relative;
+}
+
+.j-tab-item:hover {
+    color: var(--j-text);
+}
+
+.j-tab-item.active {
+    color: var(--j-primary);
+}
+
+.j-tab-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--j-primary);
+}
+
+.j-tab-panel {
+    padding: 20px;
+    display: none;
+}
+
+.j-tab-panel.active {
+    display: block;
+}

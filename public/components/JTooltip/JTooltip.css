@@ -1,0 +1,71 @@
+.j-tooltip {
+    position: relative;
+    cursor: help;
+}
+
+.j-tooltip-content {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--j-bg-card);
+    border: 1px solid var(--j-border);
+    border-radius: var(--j-radius);
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    color: var(--j-text);
+    white-space: nowrap;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--j-transition);
+    box-shadow: var(--j-shadow-card);
+}
+
+.j-tooltip-content::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--j-border);
+}
+
+.j-tooltip:hover .j-tooltip-content,
+.j-tooltip:focus .j-tooltip-content {
+    opacity: 1;
+    visibility: visible;
+}
+
+.j-tooltip-right .j-tooltip-content {
+    bottom: auto;
+    left: calc(100% + 8px);
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.j-tooltip-right .j-tooltip-content::after {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%) rotate(-90deg);
+    border-top-color: transparent;
+    border-left-color: var(--j-border);
+}
+
+.j-tooltip-left .j-tooltip-content {
+    bottom: auto;
+    right: calc(100% + 8px);
+    top: 50%;
+    left: auto;
+    transform: translateY(-50%);
+}
+
+.j-tooltip-left .j-tooltip-content::after {
+    top: 50%;
+    right: 0;
+    left: auto;
+    transform: translateY(-50%) rotate(90deg);
+    border-top-color: transparent;
+    border-right-color: var(--j-border);
+}

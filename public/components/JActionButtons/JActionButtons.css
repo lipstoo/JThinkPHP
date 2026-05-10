@@ -1,0 +1,92 @@
+.j-action-buttons {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.j-action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: var(--j-radius-sm);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: var(--j-transition);
+    background: var(--j-bg-card);
+    color: var(--j-text-muted);
+}
+
+.j-action-btn:hover {
+    background: var(--j-bg-card-hover);
+    color: var(--j-text);
+}
+
+.j-action-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+.j-action-btn-primary {
+    background: var(--j-primary);
+    color: white;
+}
+
+.j-action-btn-primary:hover {
+    background: var(--j-primary-hover);
+    color: white;
+}
+
+.j-action-btn-danger {
+    color: var(--j-danger);
+}
+
+.j-action-btn-danger:hover {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--j-danger);
+}
+
+.j-action-btn-success {
+    color: var(--j-success);
+}
+
+.j-action-btn-success:hover {
+    background: rgba(34, 197, 94, 0.1);
+    color: var(--j-success);
+}
+
+.j-action-btn-warning {
+    color: var(--j-warning);
+}
+
+.j-action-btn-warning:hover {
+    background: rgba(251, 191, 36, 0.1);
+    color: var(--j-warning);
+}
+
+.j-action-btn-info {
+    color: var(--j-info);
+}
+
+.j-action-btn-info:hover {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--j-info);
+}
+
+.j-action-btn-group {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: var(--j-bg-input);
+    border-radius: var(--j-radius);
+}
+
+.j-action-btn-group .j-action-btn {
+    border-radius: var(--j-radius-sm);
+}
+
+.j-action-btn-group .j-action-btn:not(:last-child) {
+    border-right: 1px solid var(--j-border);
+}

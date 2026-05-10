@@ -1,0 +1,33 @@
+.j-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--j-bg-input);
+    border: 1px solid var(--j-border);
+    border-radius: var(--j-radius);
+    color: var(--j-text);
+    font-size: 1rem;
+    transition: var(--j-transition);
+    outline: none;
+}
+
+.j-input:focus {
+    border-color: var(--j-primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.j-input::placeholder {
+    color: var(--j-text-muted);
+}
+
+.j-input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px var(--j-bg-input) inset;
+    -webkit-text-fill-color: var(--j-text);
+}
+
+.j-input-error {
+    border-color: var(--j-danger);
+}
+
+.j-input-success {
+    border-color: var(--j-success);
+}

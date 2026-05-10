@@ -1,0 +1,96 @@
+.j-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: var(--j-text-muted);
+    transition: var(--j-transition);
+}
+
+.j-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.j-icon-sm {
+    width: 16px;
+    height: 16px;
+}
+
+.j-icon-md {
+    width: 24px;
+    height: 24px;
+}
+
+.j-icon-lg {
+    width: 32px;
+    height: 32px;
+}
+
+.j-icon-xl {
+    width: 48px;
+    height: 48px;
+}
+
+.j-icon-primary {
+    color: var(--j-primary);
+}
+
+.j-icon-success {
+    color: var(--j-success);
+}
+
+.j-icon-warning {
+    color: var(--j-warning);
+}
+
+.j-icon-danger {
+    color: var(--j-danger);
+}
+
+.j-icon-info {
+    color: var(--j-info);
+}
+
+.j-icon-white {
+    color: #ffffff;
+}
+
+.j-icon-active,
+.j-icon:hover {
+    color: var(--j-primary);
+}
+
+.j-icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: var(--j-radius);
+    transition: var(--j-transition);
+}
+
+.j-icon-wrapper:hover {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.j-icon-wrapper.active {
+    background: var(--j-primary);
+    color: #ffffff;
+}
+
+.j-icon-wrapper.active .j-icon {
+    color: #ffffff;
+}
+
+.j-icon-wrapper.active .j-icon-label {
+    color: #ffffff;
+}
+
+.j-icon-label {
+    font-size: 0.875rem;
+    color: var(--j-text);
+    font-weight: 500;
+}

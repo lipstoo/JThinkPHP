@@ -1,0 +1,68 @@
+.j-shadow-card {
+    background: var(--j-bg-card);
+    border-radius: var(--j-radius-lg);
+    padding: 24px;
+    box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.1),
+        0 8px 24px rgba(0, 0, 0, 0.15);
+    transition: var(--j-transition);
+    position: relative;
+    overflow: visible;
+}
+
+.j-shadow-card::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    background: var(--j-bg-card);
+    border-radius: calc(var(--j-radius-lg) - 4px);
+    z-index: -1;
+    filter: blur(16px);
+    opacity: 0.3;
+}
+
+.j-shadow-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.15),
+        0 16px 48px rgba(0, 0, 0, 0.2),
+        0 0 40px rgba(99, 102, 241, 0.1);
+}
+
+.j-shadow-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.j-shadow-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--j-text);
+}
+
+.j-shadow-card-content {
+    color: var(--j-text-secondary);
+}
+
+.j-shadow-card-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--j-text);
+    margin-bottom: 8px;
+}
+
+.j-shadow-card-label {
+    font-size: 0.875rem;
+    color: var(--j-text-muted);
+}
+
+.j-shadow-card-footer {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--j-border);
+}

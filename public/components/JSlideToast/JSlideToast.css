@@ -1,0 +1,131 @@
+.j-slide-toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 10001;
+}
+
+.j-slide-toast {
+    width: 320px;
+    background: var(--j-bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--j-border);
+    border-radius: var(--j-radius);
+    box-shadow: var(--j-shadow-card);
+    display: flex;
+    overflow: hidden;
+    animation: jSlideInRight 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.j-slide-toast-side-bar {
+    width: 6px;
+    background: var(--j-success);
+    flex-shrink: 0;
+}
+
+.j-slide-toast.error .j-slide-toast-side-bar {
+    background: var(--j-danger);
+}
+
+.j-slide-toast.warning .j-slide-toast-side-bar {
+    background: var(--j-warning);
+}
+
+.j-slide-toast.info .j-slide-toast-side-bar {
+    background: var(--j-info);
+}
+
+.j-slide-toast.add .j-slide-toast-side-bar {
+    background: #007bff;
+}
+
+.j-slide-toast.edit .j-slide-toast-side-bar {
+    background: var(--j-primary);
+}
+
+.j-slide-toast-icon-box {
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-right: 1px solid var(--j-border);
+    flex-shrink: 0;
+}
+
+.j-slide-toast-icon-box svg {
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
+}
+
+.j-slide-toast.success .j-slide-toast-icon-box svg {
+    color: var(--j-success);
+}
+
+.j-slide-toast.error .j-slide-toast-icon-box svg {
+    color: var(--j-danger);
+}
+
+.j-slide-toast.warning .j-slide-toast-icon-box svg {
+    color: var(--j-warning);
+}
+
+.j-slide-toast.info .j-slide-toast-icon-box svg {
+    color: var(--j-info);
+}
+
+.j-slide-toast.add .j-slide-toast-icon-box svg {
+    color: #007bff;
+}
+
+.j-slide-toast.edit .j-slide-toast-icon-box svg {
+    color: var(--j-primary);
+}
+
+.j-slide-toast-content {
+    padding: 12px 16px;
+    flex: 1;
+}
+
+.j-slide-toast-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--j-text);
+    margin-bottom: 2px;
+}
+
+.j-slide-toast-message {
+    font-size: 12px;
+    color: var(--j-text-muted);
+    line-height: 1.4;
+}
+
+.j-slide-toast-leave {
+    animation: jSlideOutRight 0.4s ease forwards;
+}
+
+@keyframes jSlideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes jSlideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}

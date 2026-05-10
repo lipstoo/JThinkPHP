@@ -1,0 +1,38 @@
+.j-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--j-primary), var(--j-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    color: white;
+    font-size: 1.1rem;
+    position: relative;
+}
+
+.j-avatar-sm {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+}
+
+.j-avatar-lg {
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+}
+
+.j-avatar-group {
+    display: flex;
+}
+
+.j-avatar-group .j-avatar {
+    margin-left: -8px;
+    border: 2px solid var(--j-bg);
+}
+
+.j-avatar-group .j-avatar:first-child {
+    margin-left: 0;
+}

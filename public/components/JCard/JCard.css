@@ -1,0 +1,55 @@
+.j-card {
+    background: var(--j-bg-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--j-border);
+    border-radius: var(--j-radius-lg);
+    padding: 28px;
+    transition: var(--j-transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.j-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--j-primary), transparent);
+    opacity: 0;
+    transition: var(--j-transition);
+}
+
+.j-card:hover {
+    transform: translateY(-4px);
+    background: var(--j-bg-card-hover);
+    border-color: var(--j-border-light);
+    box-shadow: var(--j-shadow-card), var(--j-shadow-glow);
+}
+
+.j-card:hover::before {
+    opacity: 1;
+}
+
+.j-card-header {
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--j-border);
+}
+
+.j-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.j-card-body {
+    margin-bottom: 16px;
+}
+
+.j-card-footer {
+    padding-top: 16px;
+    border-top: 1px solid var(--j-border);
+}
