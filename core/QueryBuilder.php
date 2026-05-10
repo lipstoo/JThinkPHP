@@ -324,14 +324,23 @@ class QueryBuilder {
 
     protected function buildSelect() {
         $columns = implode(',', $this->columns);
-        $sql = "SELECT {$columns} FROM {$this->table}";
+        $limitSql = $this->buildLimit();
+        
+        // Handle SQL Server TOP which comes after SELECT
+        $top = '';
+        if (strpos($limitSql, ' TOP ') === 0) {
+            $top = $limitSql;
+            $limitSql = '';
+        }
+        
+        $sql = "SELECT{$top} {$columns} FROM {$this->table}";
         
         $sql .= $this->buildJoin();
         $sql .= $this->buildWhere();
         $sql .= $this->buildGroupBy();
         $sql .= $this->buildHaving();
         $sql .= $this->buildOrderBy();
-        $sql .= $this->buildLimit();
+        $sql .= $limitSql;
         
         return $sql;
     }
@@ -425,14 +434,8 @@ class QueryBuilder {
     }
 
     protected function buildLimit() {
-        $sql = '';
-        if ($this->limit !== null) {
-            $sql .= " LIMIT {$this->limit}";
-        }
-        if ($this->offset !== null) {
-            $sql .= " OFFSET {$this->offset}";
-        }
-        return $sql;
+        if ($this->limit === null) return '';
+        return $this->db->limit($this->limit, $this->offset);
     }
 
     protected function extractWhereParams() {

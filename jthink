@@ -43,25 +43,132 @@ switch ($command) {
         }
         break;
 
-    case 'cache:clear':
-        echo "Clearing caches...\n";
+    case 'view:clear':
+        echo "Clearing view cache...\n";
         if (JThink::view()) JThink::view()->clearCache();
-        // Router instance in JThink doesn't have clearCache exposed easily if not initialized
+        echo "Done.\n";
+        break;
+
+    case 'route:clear':
+        echo "Clearing route cache...\n";
+        $router = new \JThink\Core\Router();
+        $router->clearCache();
+        echo "Done.\n";
+        break;
+
+    case 'cache:clear':
+        echo "Clearing query cache...\n";
+        \JThink\Core\QueryBuilder::flushQueryCache();
+        echo "Done.\n";
+        break;
+
+    case 'optimize:clear':
+        echo "Clearing all optimized files (view, route, query)...\n";
+        if (JThink::view()) JThink::view()->clearCache();
         $router = new \JThink\Core\Router();
         $router->clearCache();
         \JThink\Core\QueryBuilder::flushQueryCache();
         echo "Done.\n";
         break;
 
+    case 'migrate':
+        $force = in_array('--force', $args) ? " (FORCED)" : "";
+        echo "Running database migrations{$force}...\n";
+        
+        $db = JThink::container()->make('db');
+        
+        // Ensure migrations table exists
+        $db->execute("CREATE TABLE IF NOT EXISTS migrations (id INT AUTO_INCREMENT PRIMARY KEY, migration VARCHAR(255), batch INT)");
+        
+        $migrationPath = BASE_PATH . '/database/migrations';
+        if (!file_exists($migrationPath)) {
+            mkdir($migrationPath, 0755, true);
+        }
+        
+        $files = glob($migrationPath . '/*.php');
+        $ran = $db->fetchAll("SELECT migration FROM migrations");
+        $ranFiles = array_column($ran, 'migration');
+        
+        $batch = (int)($db->fetch("SELECT MAX(batch) as max_batch FROM migrations")['max_batch'] ?? 0) + 1;
+        $count = 0;
+
+        foreach ($files as $file) {
+            $name = basename($file, '.php');
+            if (!in_array($name, $ranFiles) || $force) {
+                echo "Migrating: {$name}\n";
+                require_once $file;
+                
+                // Extract class name from filename (e.g. 2024_01_01_CreateUsersTable.php -> CreateUsersTable)
+                $className = str_replace(' ', '', ucwords(str_replace('_', ' ', substr($name, 18))));
+                if (class_exists($className)) {
+                    $instance = new $className($db);
+                    $instance->up();
+                    
+                    if (!$force) {
+                        $db->execute("INSERT INTO migrations (migration, batch) VALUES (?, ?)", [$name, $batch]);
+                    }
+                    $count++;
+                } else {
+                    echo "Warning: Class {$className} not found in {$file}\n";
+                }
+            }
+        }
+        
+        echo $count > 0 ? "Successfully ran {$count} migrations.\n" : "No pending migrations found.\n";
+        break;
+
+    case 'migrate:rollback':
+        echo "Rolling back last batch of migrations...\n";
+        $db = JThink::container()->make('db');
+        
+        // Get last batch number
+        $lastBatch = $db->fetch("SELECT MAX(batch) as max_batch FROM migrations")['max_batch'] ?? 0;
+        
+        if ($lastBatch == 0) {
+            echo "Nothing to rollback.\n";
+            break;
+        }
+        
+        $migrations = $db->fetchAll("SELECT migration FROM migrations WHERE batch = ? ORDER BY id DESC", [$lastBatch]);
+        $migrationPath = BASE_PATH . '/database/migrations';
+        
+        foreach ($migrations as $m) {
+            $name = $m['migration'];
+            $file = $migrationPath . '/' . $name . '.php';
+            
+            if (file_exists($file)) {
+                echo "Rolling back: {$name}\n";
+                require_once $file;
+                
+                $className = str_replace(' ', '', ucwords(str_replace('_', ' ', substr($name, 18))));
+                if (class_exists($className)) {
+                    $instance = new $className($db);
+                    $instance->down();
+                    
+                    $db->execute("DELETE FROM migrations WHERE migration = ?", [$name]);
+                }
+            } else {
+                echo "Error: Migration file not found: {$file}\n";
+            }
+        }
+        
+        echo "Rollback complete.\n";
+        break;
+
     case 'help':
     default:
-        echo "JThink CLI Tool v1.0\n\n";
+        echo "JThink CLI Tool v1.1\n\n";
         echo "Usage:\n";
         echo "  php jthink [command] [options]\n\n";
         echo "Commands:\n";
         echo "  serve [port]      Start the development server\n";
         echo "  route:list        List all registered routes\n";
-        echo "  cache:clear       Clear view, route, and query caches\n";
+        echo "  view:clear        Clear compiled view templates\n";
+        echo "  route:clear       Clear route cache\n";
+        echo "  cache:clear       Clear query/data cache\n";
+        echo "  optimize:clear    Clear all caches (view, route, query)\n";
+        echo "  migrate           Run database migrations\n";
+        echo "  migrate:rollback  Rollback the last batch of migrations\n";
         echo "  help              Show this help message\n";
         break;
 }

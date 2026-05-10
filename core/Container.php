@@ -59,6 +59,24 @@ class Container {
         return $object;
     }
 
+    public function call($callback, array $parameters = []) {
+        if (is_string($callback) && strpos($callback, '@') !== false) {
+            $callback = explode('@', $callback);
+        }
+
+        if (is_array($callback)) {
+            $callback[0] = is_string($callback[0]) ? $this->make($callback[0]) : $callback[0];
+            $reflector = new \ReflectionMethod($callback[0], $callback[1]);
+        } else {
+            $reflector = new \ReflectionFunction($callback);
+        }
+
+        $dependencies = $reflector->getParameters();
+        $instances = $this->resolveDependencies($dependencies, $parameters);
+
+        return call_user_func_array($callback, $instances);
+    }
+
     protected function build($concrete, $parameters = []) {
         if (is_callable($concrete)) {
             return $concrete($this, $parameters);

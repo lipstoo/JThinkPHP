@@ -118,6 +118,14 @@ class SQLiteAdapter extends Database {
         return $result;
     }
 
+    public function limit($limit, $offset = null) {
+        $sql = " LIMIT {$limit}";
+        if ($offset !== null) {
+            $sql .= " OFFSET {$offset}";
+        }
+        return $sql;
+    }
+
     public function escape($value) {
         return $this->connection->quote($value);
     }
