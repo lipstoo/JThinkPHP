@@ -247,8 +247,15 @@ class JThink {
      * 设置数据库工厂配置
      */
     public static function initDatabase() {
-        if (isset(self::$config['database']['connections'])) {
-            DBFactory::setConfig(self::$config['database']['connections']);
+        $dbConfig = self::$config['database'] ?? [];
+        if (isset($dbConfig['connections'])) {
+            DBFactory::setConfig($dbConfig['connections']);
+            
+            // 绑定核心 db 服务到容器，以便迁移工具和其它组件使用
+            self::$container->singleton('db', function() use ($dbConfig) {
+                $default = $dbConfig['default'] ?? 'mysql';
+                return DBFactory::getConnection($default);
+            });
         }
     }
 
