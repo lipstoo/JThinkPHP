@@ -3,7 +3,7 @@ namespace App\Controller;
 
 use JThink\Core\Http\Controller;
 
-class IndexController extends Controller {
+class HomeController extends Controller {
     public function index() {
         $this->assign('title', 'JThinkPHP');
         $this->assign('desc', 'A minimalist PHP framework');
