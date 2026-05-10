@@ -519,9 +519,10 @@ HTML;
             $message = 'An internal server error occurred.';
         }
 
-        // 引入全局 CSS 以保持视觉统一，同时保留基础内联兜底
+        // 引入全局 CSS
         $cssUrl = self::$config['app']['base_url'] ?? '';
         $cssUrl .= '/public/css/jthink.css';
+        $phpVersion = PHP_VERSION;
 
         $html = <<<HTML
 <!DOCTYPE html>
@@ -530,28 +531,25 @@ HTML;
     <meta charset="UTF-8">
     <title>Error {$code} - JThinkPHP</title>
     <link rel="stylesheet" href="{$cssUrl}">
-    <style>
-        body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .error-container { width: 100%; max-width: 900px; background: #1e293b; border-radius: 16px; border: 1px solid #334155; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
-        .header { padding: 40px; border-bottom: 1px solid #334155; background: linear-gradient(135deg, #1e293b, #0f172a); }
-        .code-badge { display: inline-block; background: #450a0a; color: #ef4444; padding: 4px 12px; border-radius: 99px; font-size: 14px; font-weight: 700; margin-bottom: 16px; }
-        .content { padding: 40px; }
-        .trace-box { background: #020617; border-radius: 8px; padding: 20px; font-family: 'Fira Code', monospace; font-size: 14px; color: #94a3b8; overflow-x: auto; border: 1px solid #334155; line-height: 1.7; }
-        .footer { padding: 20px 40px; background: rgba(0,0,0,0.2); font-size: 13px; color: #64748b; display: flex; justify-content: space-between; }
-    </style>
 </head>
-<body>
-    <div class="error-container">
-        <div class="header">
-            <span class="code-badge">Status {$code}</span>
-            <h1 style="margin:0; font-size:28px;">Framework Exception</h1>
-        </div>
-        <div class="content">
-            <div class="trace-box">{$message}</div>
-        </div>
-        <div class="footer">
-            <span>Powered by JThinkPHP</span>
-            <span>PHP v" . PHP_VERSION . "</span>
+<body class="j-bg">
+    <div class="j-container" style="min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <div class="j-card" style="width: 100%; max-width: 900px; padding: 0; overflow: hidden;">
+            <div class="j-header" style="text-align: left; padding: 30px; border-bottom: 1px solid var(--j-border);">
+                <div style="background: rgba(239, 68, 68, 0.15); color: var(--j-danger); display: inline-block; padding: 4px 12px; border-radius: 99px; font-weight: bold; margin-bottom: 15px;">
+                    Status {$code}
+                </div>
+                <h1 style="margin: 0; font-size: 24px; text-align: left;">Framework Exception</h1>
+            </div>
+            
+            <div style="padding: 30px; font-family: monospace; color: var(--j-text-secondary); line-height: 1.8; overflow-x: auto;">
+                {$message}
+            </div>
+            
+            <div style="padding: 20px 30px; background: rgba(0,0,0,0.3); border-top: 1px solid var(--j-border); display: flex; justify-content: space-between; font-size: 13px; color: var(--j-text-muted);">
+                <span>Powered by JThinkPHP</span>
+                <span>PHP v{$phpVersion}</span>
+            </div>
         </div>
     </div>
 </body>
