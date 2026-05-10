@@ -47,18 +47,39 @@
 
         <main class="j-main">
             <div class="j-grid test-grid">
-                <?php foreach ($results as $module => $test): ?>
+                <?php 
+                $labels = [
+                    'core' => 'Core Engine',
+                    'database' => 'Database',
+                    'cache' => 'Cache System',
+                    'filesystem' => 'Filesystem',
+                    'auth' => 'Security & Auth',
+                    'support' => 'Support Tools',
+                    'view' => 'View Engine'
+                ];
+                foreach ($results as $module => $test): 
+                ?>
                 <div class="j-card">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                        <h3 style="margin: 0; text-transform: capitalize;"><?= $module ?> 模块</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+                        <h3 style="margin: 0; font-weight: 600; font-size: 1.1rem;"><?= $labels[$module] ?? $module ?></h3>
                         <span class="status-badge status-<?= $test['status'] ?>">
-                            <?= $test['status'] === 'success' ? '✓ Passed' : '✕ Failed' ?>
+                            <?= $test['status'] === 'success' ? '✓ Passed' : ($test['status'] === 'warning' ? '⚠ Warning' : '✕ Failed') ?>
                         </span>
                     </div>
-                    <p><?= $test['message'] ?></p>
+                    
+                    <div class="j-test-details">
+                        <?php foreach ($test['details'] as $detail): ?>
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.9rem;">
+                            <span style="color: rgba(255,255,255,0.7);"><?= $detail['check'] ?></span>
+                            <span style="color: <?= $detail['status'] === 'success' ? '#10b981' : ($detail['status'] === 'warning' ? '#f59e0b' : '#ef4444') ?>; font-weight: 500;">
+                                <?= $detail['msg'] ?>
+                            </span>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
                     
                     <?php if ($test['status'] === 'success'): ?>
-                        <div class="j-progress" style="margin-top: 15px;">
+                        <div class="j-progress" style="margin-top: 15px; height: 3px;">
                             <div class="j-progress-bar" style="width: 100%;"></div>
                         </div>
                     <?php endif; ?>
