@@ -499,28 +499,65 @@ HTML;
             ]);
         }
         
-        http_response_code(500);
+        $message = "<strong>Message:</strong> {$e->getMessage()}<br>";
+        $message .= "<strong>File:</strong> {$e->getFile()}:{$e->getLine()}<br>";
+        $message .= "<br><strong>Stack Trace:</strong><br><pre>{$e->getTraceAsString()}</pre>";
+
+        self::error(500, $message);
+    }
+
+    /**
+     * 渲染 HTTP 错误页面
+     * @param int $code 错误状态码
+     * @param string $message 错误信息
+     */
+    public static function error($code, $message) {
+        http_response_code($code);
         
-        if (self::$config['app']['debug'] ?? false) {
-            $html = "<!DOCTYPE html><html><head><title>Fatal Error</title>";
-            $html .= "<style>body{font-family:Arial,sans-serif;margin:40px;background:#f5f5f5;}";
-            $html .= ".error{background:#fff;padding:30px;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.15);max-width:800px;margin:0 auto;}";
-            $html .= "h1{color:#dc3545;font-size:36px;margin:0 0 15px;display:flex;align-items:center;gap:12px;}";
-            $html .= "h1::before{content:'✕';background:#dc3545;color:#fff;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;}";
-            $html .= "p{color:#666;margin:0;font-size:14px;line-height:1.6;}";
-            $html .= ".code{background:#f8f9fa;padding:12px;border-radius:6px;font-family:monospace;font-size:12px;color:#333;margin-top:15px;white-space:pre-wrap;}";
-            $html .= ".stack{background:#2d2d2d;color:#ccc;padding:15px;border-radius:6px;font-family:monospace;font-size:11px;margin-top:10px;max-height:300px;overflow-y:auto;}";
-            $html .= "</style></head><body><div class='error'>";
-            $html .= "<h1>Fatal Error</h1>";
-            $html .= "<p><strong>Message:</strong> {$e->getMessage()}</p>";
-            $html .= "<div class='code'><strong>File:</strong> {$e->getFile()}:{$e->getLine()}</div>";
-            $html .= "<div class='stack'>{$e->getTraceAsString()}</div>";
-            $html .= "</div></body></html>";
-            echo $html;
-        } else {
-            echo "Internal Server Error";
+        $debug = self::$config['app']['debug'] ?? false;
+        if (!$debug) {
+            $message = 'An internal server error occurred.';
         }
-        
+
+        // 引入全局 CSS 以保持视觉统一，同时保留基础内联兜底
+        $cssUrl = self::$config['app']['base_url'] ?? '';
+        $cssUrl .= '/public/css/jthink.css';
+
+        $html = <<<HTML
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Error {$code} - JThinkPHP</title>
+    <link rel="stylesheet" href="{$cssUrl}">
+    <style>
+        body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .error-container { width: 100%; max-width: 900px; background: #1e293b; border-radius: 16px; border: 1px solid #334155; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .header { padding: 40px; border-bottom: 1px solid #334155; background: linear-gradient(135deg, #1e293b, #0f172a); }
+        .code-badge { display: inline-block; background: #450a0a; color: #ef4444; padding: 4px 12px; border-radius: 99px; font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+        .content { padding: 40px; }
+        .trace-box { background: #020617; border-radius: 8px; padding: 20px; font-family: 'Fira Code', monospace; font-size: 14px; color: #94a3b8; overflow-x: auto; border: 1px solid #334155; line-height: 1.7; }
+        .footer { padding: 20px 40px; background: rgba(0,0,0,0.2); font-size: 13px; color: #64748b; display: flex; justify-content: space-between; }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="header">
+            <span class="code-badge">Status {$code}</span>
+            <h1 style="margin:0; font-size:28px;">Framework Exception</h1>
+        </div>
+        <div class="content">
+            <div class="trace-box">{$message}</div>
+        </div>
+        <div class="footer">
+            <span>Powered by JThinkPHP</span>
+            <span>PHP v" . PHP_VERSION . "</span>
+        </div>
+    </div>
+</body>
+</html>
+HTML;
+        echo $html;
         exit();
     }
 
