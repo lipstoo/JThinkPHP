@@ -1,8 +1,8 @@
 <?php
 
-use JThink\Core\Migration;
-use JThink\Core\Schema;
-use JThink\Core\Blueprint;
+use JThink\Core\Database\Migration;
+use JThink\Core\Database\Schema;
+use JThink\Core\Database\Blueprint;
 
 class CreateUsersTable extends Migration {
     public function up() {

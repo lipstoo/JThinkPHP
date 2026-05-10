@@ -13,11 +13,11 @@ define('J_APP', J_PATH . '/app');
 define('J_PUBLIC', J_PATH . '/public');
 define('BASE_PATH', J_PATH);
 
-// 加载核心组件
-require J_CORE . '/functions.php';
-require J_CORE . '/JThink.php';
+// 加载核心组件（归类后的新路径）
+require J_CORE . '/Foundation/functions.php';
+require J_CORE . '/Foundation/JThink.php';
 
-use JThink\Core\JThink;
+use JThink\Core\Foundation\JThink;
 
 // 初始化 CLI 模式下的框架环境
 JThink::defineConstants();
@@ -48,7 +48,7 @@ switch ($command) {
      * 列出应用中注册的所有路由规则
      */
     case 'route:list':
-        $router = new \JThink\Core\Router();
+        $router = new \JThink\Core\Http\Router();
         require J_APP . '/config/route.php';
         echo str_pad('Method', 10) . str_pad('URI', 30) . "Action\n";
         echo str_repeat('-', 60) . "\n";
@@ -72,7 +72,7 @@ switch ($command) {
      */
     case 'route:clear':
         echo "Clearing route cache...\n";
-        $router = new \JThink\Core\Router();
+        $router = new \JThink\Core\Http\Router();
         $router->clearCache();
         echo "Done.\n";
         break;
@@ -82,7 +82,7 @@ switch ($command) {
      */
     case 'cache:clear':
         echo "Clearing query cache...\n";
-        \JThink\Core\QueryBuilder::flushQueryCache();
+        \JThink\Core\Database\QueryBuilder::flushQueryCache();
         echo "Done.\n";
         break;
 
@@ -92,9 +92,9 @@ switch ($command) {
     case 'optimize:clear':
         echo "Clearing all optimized files (view, route, query)...\n";
         if (JThink::view()) JThink::view()->clearCache();
-        $router = new \JThink\Core\Router();
+        $router = new \JThink\Core\Http\Router();
         $router->clearCache();
-        \JThink\Core\QueryBuilder::flushQueryCache();
+        \JThink\Core\Database\QueryBuilder::flushQueryCache();
         echo "Done.\n";
         break;
 
