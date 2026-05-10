@@ -142,6 +142,14 @@ class JThink {
             $driver = $config['session']['driver'] ?? 'file';
             return new Session($driver);
         });
+
+        self::$container->singleton('request', function($c) {
+            return new Request();
+        });
+
+        self::$container->bind('response', function($c, $params = []) {
+            return new Response(...$params);
+        });
     }
 
     protected static function registerProviders() {

@@ -24,6 +24,7 @@ abstract class Database {
     abstract public function beginTransaction();
     abstract public function commit();
     abstract public function rollback();
+    abstract public function limit($limit, $offset = null);
     abstract public function escape($value);
     abstract public function getError();
 

@@ -120,6 +120,14 @@ class SQLServerAdapter extends Database {
         return $result;
     }
 
+    public function limit($limit, $offset = null) {
+        if ($offset === null) {
+            return " TOP {$limit}";
+        }
+        // SQL Server 2012+ OFFSET...FETCH requires ORDER BY
+        return " OFFSET {$offset} ROWS FETCH NEXT {$limit} ROWS ONLY";
+    }
+
     public function escape($value) {
         return $this->connection->quote($value);
     }
