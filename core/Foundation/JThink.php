@@ -64,8 +64,8 @@ class JThink {
             self::parseRequest();       // 13. 解析原始 HTTP 请求
             self::loadRouter();         // 14. 加载路由配置
             self::dispatch();           // 15. 路由分发
-        } catch (\Exception $e) {
-            self::handleFatalError($e); // 处理致命错误
+        } catch (\Throwable $e) {
+            self::handleFatalError($e); // 处理核心启动阶段的致命错误
         }
     }
 
@@ -332,21 +332,17 @@ class JThink {
             if ($result === false) {
                 self::error(404, 'Page Not Found');
             }
-        } catch (\Exception $e) {
-            if (self::$config['app']['debug'] ?? false) {
-                self::error(500, 'Internal Server Error: ' . $e->getMessage() . '<br><pre>' . $e->getTraceAsString() . '</pre>');
-            } else {
-                self::error(500, 'Internal Server Error');
-            }
+        } catch (\Throwable $e) {
+            self::handleFatalError($e); // 使用统一异常处理逻辑
         }
     }
 
 
     /**
-     * 处理致命错误，记录日志并优雅终止
-     * @param \Exception $e
+     * 处理致命错误或未捕获异常，记录日志并由 error() 统一渲染
+     * @param \Throwable $e
      */
-    protected static function handleFatalError(\Exception $e) {
+    protected static function handleFatalError(\Throwable $e) {
         if (self::$logger) {
             self::$logger->critical($e->getMessage(), [
                 'file' => $e->getFile(),
@@ -381,8 +377,7 @@ class JThink {
         }
 
         // 引入全局 CSS
-        $cssUrl = self::$config['app']['base_url'] ?? '';
-        $cssUrl .= '/css/jthink.css';
+        $cssUrl = '/css/jthink.css';
         $phpVersion = PHP_VERSION;
 
         $html = <<<HTML
@@ -393,7 +388,7 @@ class JThink {
     <title>Error {$code} - JThinkPHP</title>
     <link rel="stylesheet" href="{$cssUrl}">
 </head>
-<body>
+<body class="j-bg">
     <div class="j-container">
         <div class="j-header">
             <h1>Framework Exception (Status {$code})</h1>
