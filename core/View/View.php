@@ -19,6 +19,15 @@ class View {
     protected $cachePath = null;
     protected $cacheDuration = 3600;
 
+    public function assign($key, $value = null) {
+        if (is_array($key)) {
+            $this->data = array_merge($this->data, $key);
+        } else {
+            $this->data[$key] = $value;
+        }
+        return $this;
+    }
+
     public function __construct($path = null) {
         $basePath = defined('APP_PATH') ? APP_PATH : (defined('J_APP') ? J_APP : dirname(dirname(__DIR__)));
         $this->path = $path ?: $basePath . '/app/views';
