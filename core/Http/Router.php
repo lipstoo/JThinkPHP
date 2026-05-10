@@ -207,6 +207,18 @@ class Router {
     }
 
     /**
+     * 检查路由是否已注册（用于测试）
+     */
+    public function hasRoute($uri, $method = 'GET') {
+        foreach ($this->routes as $route) {
+            if ($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 将路由定义中的 {param} 转换为正则表达式
      */
     protected function compileRoute($uri) {

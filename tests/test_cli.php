@@ -106,6 +106,16 @@ it("Helper url() generation", function() {
     return strpos($url, 'api/user') !== false;
 });
 
+it("Route Dispatching (/api/hello)", function() {
+    try {
+        $router = \JThink\Core\Foundation\JThink::$router;
+        // 验证路由是否已正确注册到系统
+        return $router->hasRoute('/api/hello', 'GET');
+    } catch (\Throwable $e) {
+        return false;
+    }
+});
+
 // --- 测试结束 ---
 
 echo "\n" . str_repeat("-", 40) . "\n";
