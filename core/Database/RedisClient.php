@@ -367,6 +367,16 @@ class RedisClient {
         throw new \Exception("RedisTimeSeries模块未安装");
     }
 
+    /**
+     * 魔术方法：将调用代理到原生 Redis 客户端
+     */
+    public function __call($name, $arguments) {
+        if ($this->client && method_exists($this->client, $name)) {
+            return call_user_func_array([$this->client, $name], $arguments);
+        }
+        throw new \Exception("Redis 方法 {$name} 不存在或客户端未连接");
+    }
+
     // 返回原生客户端
     public function getClient() {
         return $this->client;
