@@ -119,7 +119,7 @@ php jthink migrate:rollback
 ## 贡献与规范
 - **正式发布**：代码必须推送到 `main` 分支。
 - **开发提交**：所有新特性必须推送到 `dev` 分支，并通过 Pull Request 进行审核。
-- **命名规范**：主意思 + 不超过三个单词的简捷命名。
+- **命名规范**：主思想 + 不超过三个单词的简捷命名。
 
 ---
-© 2024 JThinkPHP Team. 基于 MIT 协议开源。
+© 2026 JThinkPHP Team. 基于 MIT 协议开源。
