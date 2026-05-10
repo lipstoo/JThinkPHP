@@ -7,8 +7,6 @@ use JThink\Core\Http\Router;
 // 基础路由
 $router->get('/', 'Home@index');
 $router->get('/about', 'Home@about');
-$router->get('/system/test', 'SystemTest@index');
-$router->get('/api/hello', 'Api@hello');
 
 // 用户模块 - RESTful资源路由
 $router->resource('/users', 'User');

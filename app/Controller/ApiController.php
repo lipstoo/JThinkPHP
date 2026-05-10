@@ -53,14 +53,5 @@ class ApiController {
                 'nickname' => 'JThinker'
             ]
         ]);
-    /**
-     * 业务演示接口
-     */
-    public function hello() {
-        return json_response([
-            'code' => 200,
-            'msg' => 'Hello JThinkPHP!',
-            'time' => date('Y-m-d H:i:s')
-        ]);
     }
 }
