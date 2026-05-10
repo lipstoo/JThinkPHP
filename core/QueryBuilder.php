@@ -224,10 +224,18 @@ class QueryBuilder {
     }
 
     /**
-     * 联合查询
+     * 联合查询 (UNION)
      */
     public function union($query) {
         $this->union[] = ['query' => $query, 'all' => false];
+        return $this;
+    }
+
+    /**
+     * 联合查询 (UNION ALL)
+     */
+    public function unionAll($query) {
+        $this->union[] = ['query' => $query, 'all' => true];
         return $this;
     }
 
@@ -325,6 +333,33 @@ class QueryBuilder {
         $sql = "SELECT SUM({$column}) as sum FROM {$this->table}" . $this->buildWhere();
         $result = $this->db->fetch($sql);
         return $result['sum'] ?? 0;
+    }
+
+    /**
+     * 平均值
+     */
+    public function avg($column) {
+        $sql = "SELECT AVG({$column}) as avg FROM {$this->table}" . $this->buildWhere();
+        $result = $this->db->fetch($sql);
+        return $result['avg'] ?? 0;
+    }
+
+    /**
+     * 最大值
+     */
+    public function max($column) {
+        $sql = "SELECT MAX({$column}) as max FROM {$this->table}" . $this->buildWhere();
+        $result = $this->db->fetch($sql);
+        return $result['max'] ?? null;
+    }
+
+    /**
+     * 最小值
+     */
+    public function min($column) {
+        $sql = "SELECT MIN({$column}) as min FROM {$this->table}" . $this->buildWhere();
+        $result = $this->db->fetch($sql);
+        return $result['min'] ?? null;
     }
 
     /**
@@ -510,6 +545,36 @@ class QueryBuilder {
                     $sql .= "{$column} {$operator} {$value}";
                 }
             }
+        }
+        
+        return $sql;
+    }
+
+    /**
+     * 构建 GROUP BY 子句
+     */
+    protected function buildGroupBy() {
+        if (empty($this->groupBy)) return '';
+        return ' GROUP BY ' . implode(',', $this->groupBy);
+    }
+
+    /**
+     * 构建 HAVING 子句
+     */
+    protected function buildHaving() {
+        if (empty($this->having)) return '';
+        
+        $sql = ' HAVING ';
+        $first = true;
+        
+        foreach ($this->having as $condition) {
+            if (!$first) $sql .= ' AND ';
+            $first = false;
+            
+            $column = $condition['column'];
+            $operator = $condition['operator'];
+            $value = $this->db->escape($condition['value']);
+            $sql .= "{$column} {$operator} {$value}";
         }
         
         return $sql;
