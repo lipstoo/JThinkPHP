@@ -87,12 +87,13 @@ php jthink route:list
     ```
 
 ### 4. 数据库迁移
-运行数据库迁移脚本：
-```bash
+# 运行数据库迁移脚本
 php jthink migrate
 # 强制运行 (生产环境或覆盖操作)
 php jthink migrate --force
-```
+
+# 回滚最近一次批次的迁移
+php jthink migrate:rollback
 
 ---
 
