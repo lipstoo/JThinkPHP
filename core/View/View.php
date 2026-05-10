@@ -30,7 +30,7 @@ class View {
 
     public function __construct($path = null) {
         $basePath = defined('APP_PATH') ? APP_PATH : (defined('J_APP') ? J_APP : dirname(dirname(__DIR__)) . '/app');
-        $this->path = $path ?: $basePath . '/views';
+        $this->path = $path ?: $basePath . '/View';
         
         $config = JThink::$config['view'] ?? [];
         $this->cacheEnabled = $config['cache_enabled'] ?? false;
@@ -43,7 +43,9 @@ class View {
     }
 
     public function render($template, $data = []) {
-        $this->data = $data;
+        if (!empty($data)) {
+            $this->data = array_merge($this->data, $data);
+        }
         $templatePath = $this->path . '/' . $template . '.php';
         
         if (!file_exists($templatePath)) {
