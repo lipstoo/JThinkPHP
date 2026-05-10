@@ -61,25 +61,60 @@ it("Database Connection", function() {
     return $res['test'] == 1;
 });
 
-it("JWT Generation and Verification", function() {
-    $token = JWT::encode(['id' => 123]);
-    $decoded = JWT::decode($token);
-    return $decoded['id'] == 123;
+it("Redis Connection & Operations", function() {
+    $config = JThink::$config['database']['redis'] ?? [];
+    if (empty($config)) return false;
+    
+    $redis = new \JThink\Core\Database\RedisClient($config);
+    $redis->connect();
+    $redis->set('cli_test', 'ok');
+    $val = $redis->get('cli_test');
+    $redis->del('cli_test');
+    return $val === 'ok';
 });
 
-it("Config Access via Helper", function() {
-    return config('app.name') !== null;
+it("JWT Generation and Verification", function() {
+    $token = JWT::createToken(['id' => 123]);
+    $decoded = JWT::decode($token);
+    return $decoded['user_id'] == 123;
+});
+
+it("Global Cache Helper (File)", function() {
+    cache('cli_helper_test', 'works', 1);
+    $val = cache('cli_helper_test');
+    cache('cli_helper_test', false); // Delete
+    return $val === 'works';
+});
+
+it("Complex Validation Logic", function() {
+    $data = ['email' => 'test@example.com', 'age' => 25];
+    $v = \JThink\Core\Support\Validator::make($data, [
+        'email' => 'required|email',
+        'age' => 'required'
+    ]);
+    return $v->validate() === true;
+});
+
+it("Config Access & Nesting", function() {
+    $name = config('app.name');
+    $driver = config('database.default');
+    return !empty($name) && !empty($driver);
 });
 
 it("Helper url() generation", function() {
-    return url('test') !== '';
+    $url = url('api/user');
+    return strpos($url, 'api/user') !== false;
 });
 
 // --- 测试结束 ---
 
-echo "\n----------------------------------------\n";
-echo "Final Results: \033[32m{$passCount} Passed\033[0m, \033[31m{$failCount} Failed\033[0m\n";
-echo "----------------------------------------\n";
+echo "\n" . str_repeat("-", 40) . "\n";
+if ($failCount === 0) {
+    echo "\033[32mSUCCESS: All {$passCount} tests passed!\033[0m\n";
+} else {
+    echo "\033[31mFAILURE: {$passCount} passed, {$failCount} failed.\033[0m\n";
+}
+echo str_repeat("-", 40) . "\n";
 
 if ($failCount > 0) exit(1);
 exit(0);
