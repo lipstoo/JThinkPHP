@@ -13,6 +13,9 @@ class DBFactory {
     
     /** @var string 默认连接名 */
     protected static $defaultConnection = 'mysql';
+    
+    /** @var array 数据库配置信息 */
+    protected static $config = [];
 
     /**
      * 设置全局数据库配置
