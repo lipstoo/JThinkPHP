@@ -314,6 +314,7 @@ class JThink {
         
         $routeFile = J_APP . '/config/route.php';
         if (file_exists($routeFile)) {
+            $router = self::$router; // 显式定义 $router 变量给 route.php 使用
             require $routeFile;
         }
     }
