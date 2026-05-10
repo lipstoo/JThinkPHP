@@ -108,7 +108,9 @@ class Router {
      * 添加路由到内部存储列表
      */
     protected function addRoute($method, $uri, $action, $middleware) {
+        $uri = '/' . trim($uri, '/');
         $fullUri = $this->prefix ? $this->prefix . $uri : $uri;
+        $fullUri = '/' . trim($fullUri, '/');
         
         $this->routes[] = [
             'method' => $method,
@@ -157,7 +159,7 @@ class Router {
      * @return mixed 执行结果
      */
     public function dispatch($requestMethod, $requestUri) {
-        $requestUri = trim($requestUri, '/');
+        $requestUri = '/' . trim($requestUri, '/');
         
         // 尝试从缓存加载已解析的路由（生产环境优化）
         if ($this->cacheEnabled) {
