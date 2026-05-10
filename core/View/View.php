@@ -29,12 +29,12 @@ class View {
     }
 
     public function __construct($path = null) {
-        $basePath = defined('APP_PATH') ? APP_PATH : (defined('J_APP') ? J_APP : dirname(dirname(__DIR__)));
-        $this->path = $path ?: $basePath . '/app/views';
+        $basePath = defined('APP_PATH') ? APP_PATH : (defined('J_APP') ? J_APP : dirname(dirname(__DIR__)) . '/app');
+        $this->path = $path ?: $basePath . '/views';
         
         $config = JThink::$config['view'] ?? [];
         $this->cacheEnabled = $config['cache_enabled'] ?? false;
-        $this->cachePath = $config['cache_path'] ?? (defined('STORAGE_PATH') ? STORAGE_PATH . '/cache/views' : $basePath . '/storage/cache/views');
+        $this->cachePath = $config['cache_path'] ?? (defined('STORAGE_PATH') ? STORAGE_PATH . '/cache/views' : dirname($basePath) . '/storage/cache/views');
         $this->cacheDuration = $config['cache_duration'] ?? 3600;
         
         if (!file_exists($this->cachePath)) {

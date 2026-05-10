@@ -208,6 +208,9 @@ class Validator {
     }
 
     protected function getDefaultMessage($field, $rule, $params) {
+        $p0 = $params[0] ?? '';
+        $p1 = $params[1] ?? '';
+        
         $messages = [
             'required' => "{$field} is required",
             'email' => "{$field} must be a valid email",
@@ -215,16 +218,16 @@ class Validator {
             'numeric' => "{$field} must be a number",
             'integer' => "{$field} must be an integer",
             'float' => "{$field} must be a float",
-            'min' => "{$field} must be at least {$params[0]}",
-            'max' => "{$field} must be at most {$params[0]}",
-            'between' => "{$field} must be between {$params[0]} and {$params[1]}",
+            'min' => "{$field} must be at least {$p0}",
+            'max' => "{$field} must be at most {$p0}",
+            'between' => "{$field} must be between {$p0} and {$p1}",
             'regex' => "{$field} format is invalid",
             'in' => "{$field} must be one of: " . implode(', ', $params),
             'not_in' => "{$field} must not be one of: " . implode(', ', $params),
             'confirmed' => "{$field} confirmation does not match",
             'unique' => "{$field} already exists",
             'date' => "{$field} must be a valid date",
-            'password' => "{$field} must be at least {$params[0]} characters with uppercase, lowercase and numbers",
+            'password' => "{$field} must be at least {$p0} characters with uppercase, lowercase and numbers",
             'phone' => "{$field} must be a valid phone number",
             'id_card' => "{$field} must be a valid ID card number",
             'ip' => "{$field} must be a valid IP address",
