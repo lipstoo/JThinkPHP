@@ -1,17 +1,25 @@
 <?php
 
+/**
+ * JThink CLI 命令行入口脚本
+ * 
+ * 职责：提供框架的命令行交互界面，负责执行开发服务器启动、缓存清理、数据库迁移等辅助任务。
+ */
+
+// 定义框架核心路径常量
 define('J_PATH', __DIR__);
 define('J_CORE', J_PATH . '/core');
 define('J_APP', J_PATH . '/app');
 define('J_PUBLIC', J_PATH . '/public');
 define('BASE_PATH', J_PATH);
 
+// 加载核心组件
 require J_CORE . '/functions.php';
 require J_CORE . '/JThink.php';
 
 use JThink\Core\JThink;
 
-// Initialize framework in CLI mode
+// 初始化 CLI 模式下的框架环境
 JThink::defineConstants();
 JThink::registerAutoloader();
 JThink::loadEnv();
@@ -20,18 +28,25 @@ JThink::initContainer();
 JThink::initLogger();
 JThink::initDatabase();
 
+// 解析命令行参数
 $args = $argv;
-array_shift($args); // remove script name
+array_shift($args); // 移除脚本名称
 
 $command = $args[0] ?? 'help';
 
 switch ($command) {
+    /**
+     * 启动 PHP 内置开发服务器
+     */
     case 'serve':
         $port = $args[1] ?? 8000;
         echo "Starting JThink development server on http://localhost:{$port}...\n";
         passthru("php -S localhost:{$port} -t public");
         break;
 
+    /**
+     * 列出应用中注册的所有路由规则
+     */
     case 'route:list':
         $router = new \JThink\Core\Router();
         require J_APP . '/config/route.php';
@@ -43,12 +58,18 @@ switch ($command) {
         }
         break;
 
+    /**
+     * 清理视图模板编译生成的 PHP 文件
+     */
     case 'view:clear':
         echo "Clearing view cache...\n";
         if (JThink::view()) JThink::view()->clearCache();
         echo "Done.\n";
         break;
 
+    /**
+     * 清理路由解析缓存
+     */
     case 'route:clear':
         echo "Clearing route cache...\n";
         $router = new \JThink\Core\Router();
@@ -56,12 +77,18 @@ switch ($command) {
         echo "Done.\n";
         break;
 
+    /**
+     * 清理数据库查询及其他数据缓存
+     */
     case 'cache:clear':
         echo "Clearing query cache...\n";
         \JThink\Core\QueryBuilder::flushQueryCache();
         echo "Done.\n";
         break;
 
+    /**
+     * 一键清理视图、路由和查询的所有缓存优化项
+     */
     case 'optimize:clear':
         echo "Clearing all optimized files (view, route, query)...\n";
         if (JThink::view()) JThink::view()->clearCache();
@@ -71,13 +98,16 @@ switch ($command) {
         echo "Done.\n";
         break;
 
+    /**
+     * 执行数据库迁移任务
+     */
     case 'migrate':
         $force = in_array('--force', $args) ? " (FORCED)" : "";
         echo "Running database migrations{$force}...\n";
         
         $db = JThink::container()->make('db');
         
-        // Ensure migrations table exists
+        // 自动创建迁移记录表
         $db->execute("CREATE TABLE IF NOT EXISTS migrations (id INT AUTO_INCREMENT PRIMARY KEY, migration VARCHAR(255), batch INT)");
         
         $migrationPath = BASE_PATH . '/database/migrations';
@@ -98,7 +128,7 @@ switch ($command) {
                 echo "Migrating: {$name}\n";
                 require_once $file;
                 
-                // Extract class name from filename (e.g. 2024_01_01_CreateUsersTable.php -> CreateUsersTable)
+                // 将文件名转换为类名 (例如: 2024_01_01_CreateUsersTable -> CreateUsersTable)
                 $className = str_replace(' ', '', ucwords(str_replace('_', ' ', substr($name, 18))));
                 if (class_exists($className)) {
                     $instance = new $className($db);
@@ -117,11 +147,14 @@ switch ($command) {
         echo $count > 0 ? "Successfully ran {$count} migrations.\n" : "No pending migrations found.\n";
         break;
 
+    /**
+     * 回滚最近一次批次的迁移操作
+     */
     case 'migrate:rollback':
         echo "Rolling back last batch of migrations...\n";
         $db = JThink::container()->make('db');
         
-        // Get last batch number
+        // 获取最后一批次的批次号
         $lastBatch = $db->fetch("SELECT MAX(batch) as max_batch FROM migrations")['max_batch'] ?? 0;
         
         if ($lastBatch == 0) {
@@ -155,6 +188,9 @@ switch ($command) {
         echo "Rollback complete.\n";
         break;
 
+    /**
+     * 显示帮助信息
+     */
     case 'help':
     default:
         echo "JThink CLI Tool v1.1\n\n";

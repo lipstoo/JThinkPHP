@@ -2,38 +2,66 @@
 
 namespace JThink\Core;
 
+/**
+ * JThink 框架引导类
+ * 
+ * 职责：负责框架的启动流程、环境初始化、核心容器管理及请求分发。
+ * 该类是整个框架的入口点，协调各个组件协同工作。
+ */
 class JThink {
+    /** @var array 框架全局配置 */
     public static $config = [];
+    
+    /** @var array 当前请求的原始数据 */
     public static $request = [];
+    
+    /** @var Router 路由实例 */
     public static $router = null;
+    
+    /** @var Container 依赖注入容器实例 */
     public static $container = null;
+    
+    /** @var Logger 日志管理实例 */
     public static $logger = null;
+    
+    /** @var View 视图渲染引擎实例 */
     public static $view = null;
+    
+    /** @var Session 会话管理实例 */
     public static $session = null;
+    
+    /** @var ServiceProviderManager 服务提供者管理器 */
     protected static $providerManager = null;
 
+    /**
+     * 启动框架
+     * 按顺序执行初始化任务，并分发请求
+     */
     public static function run() {
         try {
-            self::defineConstants();
-            self::registerAutoloader();
-            self::loadEnv();
-            self::loadConfig();
-            self::initContainer();
-            self::registerProviders();
-            self::initLogger();
-            self::initSession();
-            self::initDatabase();
-            self::initRedis();
-            self::initView();
-            self::bootProviders();
-            self::parseRequest();
-            self::loadRouter();
-            self::dispatch();
+            self::defineConstants();     // 1. 定义系统常量
+            self::registerAutoloader();  // 2. 注册 PSR-4 自动加载
+            self::loadEnv();            // 3. 加载 .env 环境变量
+            self::loadConfig();         // 4. 加载配置文件
+            self::initContainer();      // 5. 初始化 DI 容器
+            self::registerProviders();  // 6. 注册服务提供者
+            self::initLogger();         // 7. 初始化日志系统
+            self::initSession();        // 8. 初始化会话
+            self::initDatabase();       // 9. 初始化数据库工厂
+            self::initRedis();          // 10. 初始化 Redis 连接
+            self::initView();           // 11. 初始化视图引擎
+            self::bootProviders();      // 12. 引导所有服务提供者
+            self::parseRequest();       // 13. 解析原始 HTTP 请求
+            self::loadRouter();         // 14. 加载路由配置
+            self::dispatch();           // 15. 路由分发
         } catch (\Exception $e) {
-            self::handleFatalError($e);
+            self::handleFatalError($e); // 处理致命错误
         }
     }
 
+    /**
+     * 定义框架核心路径常量
+     */
     protected static function defineConstants() {
         if (!defined('J_PATH')) {
             define('J_PATH', dirname(__DIR__));
@@ -41,7 +69,9 @@ class JThink {
         if (!defined('J_CORE')) {
             define('J_CORE', J_PATH . '/core');
         }
+        // 预加载全局助手函数
         require_once J_CORE . '/functions.php';
+        
         if (!defined('J_APP')) {
             define('J_APP', J_PATH . '/app');
         }
@@ -59,6 +89,9 @@ class JThink {
         }
     }
 
+    /**
+     * 注册 PSR-4 自动加载逻辑
+     */
     protected static function registerAutoloader() {
         spl_autoload_register(function ($class) {
             $prefixes = [
@@ -85,6 +118,9 @@ class JThink {
         });
     }
 
+    /**
+     * 从 .env 文件加载环境变量
+     */
     protected static function loadEnv() {
         $envFile = J_PATH . '/.env';
         if (file_exists($envFile)) {
@@ -104,6 +140,9 @@ class JThink {
         }
     }
 
+    /**
+     * 加载应用配置文件
+     */
     public static function loadConfig() {
         $configFile = J_APP . '/config/config.php';
         if (file_exists($configFile)) {
@@ -121,6 +160,9 @@ class JThink {
         }
     }
 
+    /**
+     * 初始化依赖注入容器并绑定核心服务
+     */
     public static function initContainer() {
         self::$container = new Container();
         self::$container->instance('config', self::$config);
@@ -128,67 +170,95 @@ class JThink {
         
         self::$providerManager = new ServiceProviderManager(self::$container);
         
+        // 绑定日志服务
         self::$container->singleton('logger', function($c) {
             $logLevel = $c->make('config')['app']['log_level'] ?? Logger::DEBUG;
             return new Logger($logLevel);
         });
         
+        // 绑定视图服务
         self::$container->singleton('view', function($c) {
             return new View();
         });
         
+        // 绑定 Session 服务
         self::$container->singleton('session', function($c) {
             $config = $c->make('config');
             $driver = $config['session']['driver'] ?? 'file';
             return new Session($driver);
         });
 
+        // 绑定 Request 服务
         self::$container->singleton('request', function($c) {
             return new Request();
         });
 
+        // 绑定 Response 响应工厂
         self::$container->bind('response', function($c, $params = []) {
             return new Response(...$params);
         });
     }
 
+    /**
+     * 注册配置中的服务提供者
+     */
     protected static function registerProviders() {
         $providers = self::$config['providers'] ?? [];
-        
         foreach ($providers as $provider) {
             self::$providerManager->registerProvider($provider);
         }
     }
 
+    /**
+     * 执行所有已注册服务提供者的 boot 方法
+     */
     protected static function bootProviders() {
         self::$providerManager->bootProviders();
     }
 
+    /**
+     * 初始化全局日志实例
+     */
     public static function initLogger() {
         self::$logger = self::$container->make('logger');
     }
 
+    /**
+     * 初始化并启动 Session
+     */
     public static function initSession() {
         self::$session = self::$container->make('session');
         self::$session->start();
     }
 
+    /**
+     * 设置数据库工厂配置
+     */
     public static function initDatabase() {
         if (isset(self::$config['database']['connections'])) {
             DBFactory::setConfig(self::$config['database']['connections']);
         }
     }
 
+    /**
+     * 设置 Redis 门面配置
+     */
     public static function initRedis() {
         if (isset(self::$config['database']['redis'])) {
             \JThink\Facade\Redis::setConfig(self::$config['database']['redis']);
         }
     }
 
+    /**
+     * 获取视图引擎实例
+     */
     public static function initView() {
         self::$view = self::$container->make('view');
     }
 
+    /**
+     * 解析当前 HTTP 请求参数（兼容模式）
+     */
     public static function parseRequest() {
         $url = $_SERVER['REQUEST_URI'];
         $url = str_replace('/public/', '', $url);
@@ -213,6 +283,9 @@ class JThink {
         self::$request['files'] = $_FILES;
     }
 
+    /**
+     * 初始化并加载路由配置
+     */
     public static function loadRouter() {
         $cacheEnabled = self::$config['app']['route_cache'] ?? false;
         self::$router = new Router($cacheEnabled);
@@ -223,6 +296,9 @@ class JThink {
         }
     }
 
+    /**
+     * 执行路由分发，调用控制器逻辑
+     */
     public static function dispatch() {
         try {
             $result = self::$router->dispatch(
@@ -245,6 +321,11 @@ class JThink {
         }
     }
 
+    /**
+     * 渲染 HTTP 错误页面
+     * @param int $code 错误状态码
+     * @param string $message 错误信息
+     */
     public static function error($code, $message) {
         http_response_code($code);
         
@@ -263,6 +344,10 @@ class JThink {
         }
     }
 
+    /**
+     * 处理致命错误，记录日志并优雅终止
+     * @param \Exception $e
+     */
     protected static function handleFatalError(\Exception $e) {
         if (self::$logger) {
             self::$logger->critical($e->getMessage(), [
@@ -297,27 +382,47 @@ class JThink {
         exit();
     }
 
+    /**
+     * 生成完整的 URL
+     * @param string $path
+     * @return string
+     */
     public static function url($path = '') {
         $baseUrl = self::$config['app']['base_url'] ?? '';
         return $baseUrl . ($path ? '/' . ltrim($path, '/') : '');
     }
 
+    /**
+     * 获取 DI 容器
+     */
     public static function container() {
         return self::$container;
     }
 
+    /**
+     * 获取日志实例
+     */
     public static function logger() {
         return self::$logger;
     }
 
+    /**
+     * 获取视图引擎
+     */
     public static function view() {
         return self::$view;
     }
 
+    /**
+     * 获取 Session 管理器
+     */
     public static function session() {
         return self::$session;
     }
 
+    /**
+     * 获取服务提供者管理器
+     */
     public static function providerManager() {
         return self::$providerManager;
     }
