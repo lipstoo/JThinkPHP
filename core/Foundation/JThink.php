@@ -333,14 +333,11 @@ class JThink {
                 self::error(404, 'Page Not Found');
             }
         } catch (\Exception $e) {
-            if (self::$logger) {
-                self::$logger->error($e->getMessage(), [
-                    'file' => $e->getFile(),
-                    'line' => $e->getLine(),
-                    'trace' => $e->getTraceAsString()
-                ]);
+            if (self::$config['app']['debug'] ?? false) {
+                self::error(500, 'Internal Server Error: ' . $e->getMessage() . '<br><pre>' . $e->getTraceAsString() . '</pre>');
+            } else {
+                self::error(500, 'Internal Server Error');
             }
-            self::error(500, 'Internal Server Error');
         }
     }
 
