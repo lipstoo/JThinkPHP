@@ -499,29 +499,11 @@ HTML;
             ]);
         }
         
-        http_response_code(500);
-        
-        if (self::$config['app']['debug'] ?? false) {
-            $html = "<!DOCTYPE html><html><head><title>Fatal Error</title>";
-            $html .= "<style>body{font-family:Arial,sans-serif;margin:40px;background:#f5f5f5;}";
-            $html .= ".error{background:#fff;padding:30px;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.15);max-width:800px;margin:0 auto;}";
-            $html .= "h1{color:#dc3545;font-size:36px;margin:0 0 15px;display:flex;align-items:center;gap:12px;}";
-            $html .= "h1::before{content:'✕';background:#dc3545;color:#fff;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;}";
-            $html .= "p{color:#666;margin:0;font-size:14px;line-height:1.6;}";
-            $html .= ".code{background:#f8f9fa;padding:12px;border-radius:6px;font-family:monospace;font-size:12px;color:#333;margin-top:15px;white-space:pre-wrap;}";
-            $html .= ".stack{background:#2d2d2d;color:#ccc;padding:15px;border-radius:6px;font-family:monospace;font-size:11px;margin-top:10px;max-height:300px;overflow-y:auto;}";
-            $html .= "</style></head><body><div class='error'>";
-            $html .= "<h1>Fatal Error</h1>";
-            $html .= "<p><strong>Message:</strong> {$e->getMessage()}</p>";
-            $html .= "<div class='code'><strong>File:</strong> {$e->getFile()}:{$e->getLine()}</div>";
-            $html .= "<div class='stack'>{$e->getTraceAsString()}</div>";
-            $html .= "</div></body></html>";
-            echo $html;
-        } else {
-            echo "Internal Server Error";
-        }
-        
-        exit();
+        $message = "<strong>Message:</strong> {$e->getMessage()}<br>";
+        $message .= "<strong>File:</strong> {$e->getFile()}:{$e->getLine()}<br>";
+        $message .= "<br><strong>Stack Trace:</strong><br><pre>{$e->getTraceAsString()}</pre>";
+
+        self::error(500, $message);
     }
 
     /**
